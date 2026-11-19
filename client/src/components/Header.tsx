@@ -8,13 +8,13 @@ export const Header: React.FC = () => {
   const location = useLocation();
 
   const navLinks = [
-    { to: '/', label: t('navHome') },
-    { to: '/join', label: t('navJoin') },
-    { to: '/status/S-1', label: t('navStatus') },
-    { to: '/reception', label: t('navReception') },
-    { to: '/barber/Ravi', label: t('navBarber') },
-    { to: '/display', label: t('navDisplay') },
-    { to: '/admin', label: t('navAdmin') },
+    { to: '/', label: t('routes.home') },
+    { to: '/join', label: t('routes.join') },
+    { to: '/status/S-14', label: t('routes.status') },
+    { to: '/reception', label: t('routes.reception') },
+    { to: '/barber/Ravi', label: t('routes.barber') },
+    { to: '/display', label: t('routes.display') },
+    { to: '/admin', label: t('routes.admin') },
   ];
 
   return (
@@ -32,32 +32,36 @@ export const Header: React.FC = () => {
                   {t('salonName')}
                 </span>
                 <span className="text-xs px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 font-medium border border-emerald-500/30">
-                  {t('openStatus')}
+                  {t('openBadge')}
                 </span>
               </div>
-              <p className="text-xs text-gray-400 hidden sm:block">
-                {t('tagline')}
-              </p>
             </div>
           </Link>
 
-          {/* Right Action: Language Toggle */}
+          {/* Language Switcher */}
           <div className="flex items-center space-x-3">
             <button
               onClick={toggleLanguage}
+              data-testid="language-toggle"
               className="flex items-center space-x-2 px-3 py-1.5 rounded-lg bg-gray-800 hover:bg-gray-700 text-[#D4A017] border border-[#D4A017]/40 text-sm font-semibold transition-colors shadow-sm"
               title="Toggle English / Gujarati"
             >
               <Globe className="w-4 h-4 text-[#D4A017]" />
-              <span>{language === 'en' ? 'ગુજરાતી' : 'English'}</span>
+              <span data-testid="current-language-label">
+                {language === 'en' ? 'ગુજરાતી' : 'English'}
+              </span>
             </button>
           </div>
         </div>
 
-        {/* Horizontal screen switcher for testing and navigation */}
+        {/* 7 Route Navigation links */}
         <div className="flex space-x-1 overflow-x-auto py-2 text-xs border-t border-gray-800/80 scrollbar-none">
           {navLinks.map((link) => {
-            const isActive = location.pathname === link.to || (link.to.startsWith('/status') && location.pathname.startsWith('/status'));
+            const isActive =
+              location.pathname === link.to ||
+              (link.to.startsWith('/status') && location.pathname.startsWith('/status')) ||
+              (link.to.startsWith('/barber') && location.pathname.startsWith('/barber'));
+
             return (
               <Link
                 key={link.to}

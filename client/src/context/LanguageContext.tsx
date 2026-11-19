@@ -1,42 +1,65 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { translations } from '../i18n/translations';
-import type { Language, TranslationKey } from '../i18n/translations';
+import en from '../locales/en.json';
+import gu from '../locales/gu.json';
+
+export type Language = 'en' | 'gu';
+
+const translations: Record<Language, typeof en> = { en, gu };
 
 interface LanguageContextType {
   language: Language;
   setLanguage: (lang: Language) => void;
   toggleLanguage: () => void;
-  t: (key: TranslationKey, params?: Record<string, string | number>) => string;
+  t: (path: string) => string;
 }
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
 export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [language, setLanguageState] = useState<Language>(() => {
-    const saved = localStorage.getItem('salon_lang');
-    return (saved === 'gu' || saved === 'en') ? saved : 'en';
+    try {
+      const saved = localStorage.getItem('salon_lang');
+      return (saved === 'gu' || saved === 'en') ? saved : 'en';
+    } catch {
+      return 'en';
+    }
   });
 
   const setLanguage = (lang: Language) => {
     setLanguageState(lang);
-    localStorage.setItem('salon_lang', lang);
+    try {
+      localStorage.setItem('salon_lang', lang);
+    } catch {
+      // storage unavailable fallback
+    }
   };
 
   const toggleLanguage = () => {
-    setLanguage(language === 'en' ? 'gu' : 'en');
+    const nextLang = language === 'en' ? 'gu' : 'en';
+    setLanguage(nextLang);
   };
 
-  const t = (key: TranslationKey, params?: Record<string, string | number>): string => {
-    const langDict = translations[language] || translations.en;
-    let text = langDict[key] || translations.en[key] || key;
-
-    if (params) {
-      Object.entries(params).forEach(([paramKey, paramVal]) => {
-        text = text.replace(new RegExp(`\\{${paramKey}\\}`, 'g'), String(paramVal));
-      });
+  const t = (path: string): string => {
+    const current = translations[language] || translations.en;
+    const parts = path.split('.');
+    let value: any = current;
+    for (const part of parts) {
+      if (value && typeof value === 'object' && part in value) {
+        value = value[part];
+      } else {
+        // Fallback to English
+        let fallback: any = translations.en;
+        for (const fbPart of parts) {
+          if (fallback && typeof fallback === 'object' && fbPart in fallback) {
+            fallback = fallback[fbPart];
+          } else {
+            return path;
+          }
+        }
+        return typeof fallback === 'string' ? fallback : path;
+      }
     }
-
-    return text;
+    return typeof value === 'string' ? value : path;
   };
 
   useEffect(() => {

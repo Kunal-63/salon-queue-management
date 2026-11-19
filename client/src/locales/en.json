@@ -1,0 +1,16 @@
+{
+  "salonName": "Luxe & Gold Salon",
+  "openBadge": "Open · Closes 9 PM",
+  "language": "Language",
+  "english": "English",
+  "gujarati": "ગુજરાતી",
+  "routes": {
+    "home": "Home",
+    "join": "Join Queue",
+    "status": "My Status",
+    "reception": "Reception Dashboard",
+    "barber": "Barber View",
+    "display": "Waiting Area TV",
+    "admin": "Owner Settings"
+  }
+}

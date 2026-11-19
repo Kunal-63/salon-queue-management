@@ -1,33 +1,43 @@
 # Salon Queue Management System
 
-**Live demo:** https://salon-queue-demo.vercel.app  
-**Hosted on:** Vercel (frontend) + Render (backend)  
-**Test PIN / Access:** Open access for staff demo (or 1234)
+**Live demo:** [Live URL placeholder]
+**Hosted on:** Vercel (client) + Render (server)
 
 ## About
-Queue app for a salon:
-- Customers join from their mobile phone, select services, choose preferred barber (or 'Any'), view live queue position, circular countdown, and get real-time 'Start coming' & 'It's your turn!' alerts.
-- Receptionists manage the queue, call next customer by barber preference (FCFS), add walk-ins, and mark no-shows.
-- Barbers manage their chair with start/done buttons and break status.
-- Waiting Area TV displays active customer per barber and up next tokens with chimes.
-- Salon owner manages active services, prices, barbers on duty, and opens/closes the online queue.
+Queue management system for a salon:
+- Customers join from their mobile device, track estimated wait times, and receive real-time alerts.
+- Receptionists and barbers manage queues and chair assignments.
+- Waiting area TV displays active tokens and upcoming queue numbers.
+- Bilingual interface with full English and Gujarati support.
 
 ## Stack
-- Frontend: React + Vite + TypeScript + Tailwind CSS
-- Backend: Node.js + Express + Socket.IO + SQLite (`better-sqlite3`)
-- Single queue rules engine on the server
-- Full English and Gujarati (EN/GU) bilingual support
+- **Client:** React + Vite + TypeScript + Tailwind CSS (Charcoal `#1F2937` + Gold `#D4A017` theme)
+- **Server:** Node.js + Express + TypeScript + SQLite (`better-sqlite3`) + Socket.IO
+- **Architecture:** Monorepo with modular server (routes, services, db, sockets, config)
 
-## Quick Start
+## Run Commands
+
+### Install All Dependencies
 ```bash
-# Install dependencies
 npm install
-cd client && npm install
-cd ../server && npm install
+npm --prefix server install
+npm --prefix client install
+```
 
-# Run both client and server concurrently
+### Run Locally (Development)
+Starts both server (port 3001) and client (port 5173) concurrently:
+```bash
 npm run dev
 ```
 
-- Client: http://localhost:5173
-- Server API: http://localhost:3001
+### Test API Health Check
+```bash
+curl http://localhost:3001/api/health
+# Returns: {"status":"ok","db":"ok"}
+```
+
+### Build for Production
+Compiles both server TypeScript and Vite client bundles:
+```bash
+npm run build
+```
