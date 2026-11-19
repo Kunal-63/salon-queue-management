@@ -10,7 +10,7 @@ interface LanguageContextType {
   language: Language;
   setLanguage: (lang: Language) => void;
   toggleLanguage: () => void;
-  t: (path: string) => string;
+  t: (path: string, params?: Record<string, string | number>) => string;
 }
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
@@ -39,7 +39,7 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     setLanguage(nextLang);
   };
 
-  const t = (path: string): string => {
+  const t = (path: string, params?: Record<string, string | number>): string => {
     const current = translations[language] || translations.en;
     const parts = path.split('.');
     let value: any = current;
@@ -56,10 +56,22 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
             return path;
           }
         }
-        return typeof fallback === 'string' ? fallback : path;
+        value = fallback;
+        break;
       }
     }
-    return typeof value === 'string' ? value : path;
+
+    if (typeof value !== 'string') {
+      return path;
+    }
+
+    if (params) {
+      return Object.entries(params).reduce((str, [k, v]) => {
+        return str.replace(new RegExp(`\\{${k}\\}`, 'g'), String(v));
+      }, value);
+    }
+
+    return value;
   };
 
   useEffect(() => {

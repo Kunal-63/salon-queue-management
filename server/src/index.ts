@@ -4,6 +4,7 @@ import { Server } from 'socket.io';
 import cors from 'cors';
 import { config } from './config/index.js';
 import { initDatabase } from './db/index.js';
+import { QueueService } from './services/queueService.js';
 import { apiRouter } from './routes/index.js';
 import { setupSockets } from './sockets/index.js';
 
@@ -56,6 +57,7 @@ export const io = new Server(server, {
 
 // Initialize SQLite database
 initDatabase();
+QueueService.seedDemoDataIfEmpty();
 
 // Register WebSocket handlers
 setupSockets(io);

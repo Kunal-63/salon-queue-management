@@ -1,12 +1,17 @@
 @import "tailwindcss";
 
 @theme {
-  --color-charcoal: #1F2937;
-  --color-charcoal-dark: #111827;
-  --color-charcoal-light: #374151;
-  --color-gold: #D4A017;
-  --color-gold-light: #F3C643;
-  --color-gold-dark: #B3860F;
+  --color-charcoal: #0e1c15;
+  --color-charcoal-dark: #07120b;
+  --color-charcoal-light: #162d22;
+  --color-gold: #f5c518;
+  --color-gold-light: #fde047;
+  --color-gold-dark: #b3860f;
+  --color-emerald-loki: #10b981;
+  --color-emerald-glow: #00ff87;
+  --color-tva-amber: #f97316;
+  --font-cinzel: 'Cinzel', serif;
+  --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
 }
 
 :root {
@@ -16,29 +21,117 @@
 body {
   margin: 0;
   min-height: 100vh;
-  background-color: #111827;
-  color: #F9FAFB;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  background-color: #07120b;
+  background-image: 
+    radial-gradient(ellipse at 50% 0%, rgba(16, 185, 129, 0.12) 0%, transparent 60%),
+    radial-gradient(ellipse at 85% 90%, rgba(245, 197, 24, 0.06) 0%, transparent 50%),
+    radial-gradient(ellipse at 15% 70%, rgba(5, 150, 105, 0.08) 0%, transparent 50%);
+  color: #f1f5f9;
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   -webkit-font-smoothing: antialiased;
 }
 
-/* Custom utility styles */
-.bg-charcoal {
-  background-color: #1F2937;
+/* Custom Loki & TVA Aesthetics */
+.font-cinzel {
+  font-family: 'Cinzel', serif;
 }
 
-.bg-charcoal-dark {
-  background-color: #111827;
+/* Glowing Elements */
+.glow-gold {
+  box-shadow: 0 0 25px rgba(245, 197, 24, 0.25);
 }
 
-.text-gold {
-  color: #D4A017;
+.glow-gold-lg {
+  box-shadow: 0 0 40px rgba(245, 197, 24, 0.35);
 }
 
-.bg-gold {
-  background-color: #D4A017;
+.glow-emerald {
+  box-shadow: 0 0 25px rgba(16, 185, 129, 0.25);
 }
 
-.border-gold {
-  border-color: #D4A017;
+.glow-emerald-lg {
+  box-shadow: 0 0 40px rgba(0, 255, 135, 0.3);
+}
+
+/* Glassmorphism Cards */
+.loki-card {
+  background: linear-gradient(145deg, rgba(14, 30, 22, 0.85) 0%, rgba(9, 20, 14, 0.95) 100%);
+  border: 1px solid rgba(245, 197, 24, 0.18);
+  backdrop-filter: blur(12px);
+  border-radius: 1rem;
+}
+
+.loki-card-emerald {
+  background: linear-gradient(145deg, rgba(11, 35, 23, 0.85) 0%, rgba(6, 21, 14, 0.95) 100%);
+  border: 1px solid rgba(16, 185, 129, 0.25);
+  backdrop-filter: blur(12px);
+  border-radius: 1rem;
+}
+
+.loki-card-gold {
+  background: linear-gradient(145deg, rgba(28, 25, 10, 0.9) 0%, rgba(15, 20, 14, 0.95) 100%);
+  border: 1px solid rgba(245, 197, 24, 0.4);
+  backdrop-filter: blur(12px);
+  border-radius: 1rem;
+}
+
+/* Gold Gradient Text */
+.text-gold-gradient {
+  background: linear-gradient(135deg, #FFF4A3 0%, #F5C518 50%, #B3860F 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-emerald-gradient {
+  background: linear-gradient(135deg, #00FF87 0%, #10B981 60%, #047857 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Timeline Pulse Animation */
+@keyframes timelinePulse {
+  0%, 100% {
+    opacity: 0.4;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.9;
+    transform: scale(1.04);
+  }
+}
+
+.animate-timeline {
+  animation: timelinePulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes goldFlash {
+  0%, 100% {
+    box-shadow: 0 0 15px rgba(245, 197, 24, 0.3);
+    border-color: rgba(245, 197, 24, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 45px rgba(245, 197, 24, 0.85), inset 0 0 20px rgba(245, 197, 24, 0.4);
+    border-color: #F5C518;
+  }
+}
+
+.animate-gold-flash {
+  animation: goldFlash 1.6s ease-in-out infinite;
+}
+
+/* Custom Scrollbar for modern look */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #07120b;
+}
+::-webkit-scrollbar-thumb {
+  background: #193828;
+  border-radius: 9999px;
+  border: 1px solid rgba(245, 197, 24, 0.2);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #25523b;
 }
