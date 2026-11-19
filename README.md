@@ -1,6 +1,6 @@
 # Salon Queue Management System
 
-**Live demo:** [Live URL placeholder]
+**Live demo:** <url>
 **Hosted on:** Vercel (client) + Render (server)
 
 ## About
@@ -15,7 +15,27 @@ Queue management system for a salon:
 - **Server:** Node.js + Express + TypeScript + SQLite (`better-sqlite3`) + Socket.IO
 - **Architecture:** Monorepo with modular server (routes, services, db, sockets, config)
 
-## Run Commands
+## Deployment Architecture
+
+### 1. Client (Vercel)
+- **Root Directory:** `client`
+- **Build Command:** `npm run build`
+- **Output Directory:** `dist`
+- **Environment Variables:**
+  - `VITE_SERVER_URL`: Your Render backend service URL (e.g., `https://salon-queue-server.onrender.com`)
+- **SPA Rewrites:** Configured in `client/vercel.json` and `vercel.json` so direct links to `/join` or `/status/:id` do not 404.
+
+### 2. Server (Render)
+- **Service Type:** Web Service
+- **Root Directory:** `server`
+- **Environment:** Node
+- **Build Command:** `npm install && npm run build`
+- **Start Command:** `npm start`
+- **Environment Variables:**
+  - `NODE_ENV`: `production`
+  - `CLIENT_ORIGIN`: Your Vercel frontend URL (e.g., `https://salon-queue-app.vercel.app`)
+
+## Local Development Commands
 
 ### Install All Dependencies
 ```bash
