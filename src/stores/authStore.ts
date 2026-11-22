@@ -47,7 +47,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
         body: JSON.stringify({ identifier, password, pin }),
       }).catch(() => null)
 
-      if (res && res.ok) {
+      if (res && res.ok && res.headers.get('content-type')?.includes('application/json')) {
         const data = await res.json()
         const session: UserSession = {
           role: data.user.role || 'admin',

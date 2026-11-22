@@ -297,7 +297,7 @@ export const useQueueStore = create<QueueStore>((set, get) => ({
   initRealtimeSync: () => {
     // 1. Initial hydration from Node.js Backend Server API
     fetch('/api/queue')
-      .then(res => (res.ok ? res.json() : null))
+      .then(res => (res.ok && res.headers.get('content-type')?.includes('application/json') ? res.json() : null))
       .then(data => {
         if (data && Array.isArray(data.queue)) {
           const parsedQueue = data.queue.map(parseQueueItem)
@@ -317,6 +317,13 @@ export const useQueueStore = create<QueueStore>((set, get) => ({
       eventSource = new EventSource('/api/events')
       eventSource.onopen = () => {
         set({ isLiveDbConnected: true })
+      }
+      eventSource.onerror = () => {
+        // Close gracefully if SSE endpoint is not available on static hosts like Vercel
+        if (eventSource) {
+          eventSource.close()
+          eventSource = null
+        }
       }
       const syncFromSSE = (event: MessageEvent) => {
         try {

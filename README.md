@@ -1,6 +1,6 @@
 # Salon Queue Management System — LUXE CUTS
 
-**Live demo:** https://salon-queue-management.vercel.app  
+**Live demo:** https://salon-queue-management-six.vercel.app/  
 **Hosted on:** Vercel (frontend) + Render / Node.js (backend) + Supabase (database)
 
 ### Staff / Concierge Test Credentials
