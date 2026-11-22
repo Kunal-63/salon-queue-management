@@ -1,6 +1,13 @@
 # Half-Page Reflection
 ## Salon Queue Management System — Vibe Coding Lab Reflection
 
+- **Student Name:** Kunal Adwani  
+- **Roll Number:** 202612050  
+- **Program:** MSc IT (Semester 1)  
+- **Course:** Introduction to Programming (IT603)  
+
+---
+
 ### Student Reflection
 
 **Context & Objective:**  

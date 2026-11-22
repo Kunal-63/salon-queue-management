@@ -1,7 +1,9 @@
 # Prompts Log — Salon Queue Management System
 ## Complete Chronological Prompt Record
 
-This document records the prompts used throughout the creation and evolution of the **LUXE CUTS** Queue Management System, including design iterations, debugging, and feature additions.
+- **Student:** Kunal Adwani | **Roll Number:** 202612050 | **Program:** MSc IT (Sem 1)
+
+---
 
 ---
 

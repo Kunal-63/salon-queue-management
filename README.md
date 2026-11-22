@@ -2,7 +2,8 @@
 
 **Live demo:** https://salon-queue-management-six.vercel.app/  
 **Hosted on:** Vercel (frontend) + Render / Node.js (backend) + Supabase (database)  
-**Test PIN (Reception / Barber / Admin):** `7788` *(or Email: `admin@luxecuts.com` / Password: `luxe2026`)*
+**Test PIN (Reception / Barber / Admin):** `7788` *(or Email: `admin@luxecuts.com` / Password: `luxe2026`)*  
+**Student:** Kunal Adwani | **Roll Number:** 202612050 | **Program:** MSc IT (Sem 1)
 
 ### 📹 3-Minute Demo Video Walkthrough
 - **Demo Video:** [Click here to view the 3-minute flow demo walkthrough](https://salon-queue-management-six.vercel.app/) *(or paste your recorded Loom / Drive video link here)*
