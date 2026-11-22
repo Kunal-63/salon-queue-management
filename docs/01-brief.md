@@ -1,23 +1,38 @@
-# Salon Queue — Brief
+# 01 — Project Brief & Scope
+## LUXE CUTS | Luxury Salon Queue Management System
 
-## Problem
-On weekends customers sit 1–2 hours in the salon without knowing
-their turn. Some leave; others argue about who came first.
+### Problem Statement
+On busy days and weekends, salon patrons frequently wait 45 to 90 minutes without knowing when they will be served. Customers grow anxious, some walk out, and others dispute who arrived first at the reception desk. Stylists lose valuable service time manually checking customer queues and shouting ticket numbers over ambient salon noise.
 
-## Users
-Customers, receptionist/owner, barbers.
+### Target Personas & Users
+1. **Patron / Guest:** Scans a lounge QR code or opens the app on mobile, selects bespoke services (single or multi-select), chooses their preferred stylist or selects "Any Stylist (Fastest)", and monitors their real-time ordinal position with live circular progress rings and auditory chime alerts.
+2. **Stylist (Zara, Marcus, Dev):** Operates their dedicated station cockpit (`/barber/:id`), tracks chair time with a live elapsed pace bar, triggers overtime warnings, toggles break status, calls the next customer in line, or marks no-shows.
+3. **Lounge Concierge / Admin:** Oversees the master real-time queue ledger, adds manual walk-in patrons, filters by stylist, uses live search, triggers automated patron simulations, checks floor analytics, and can sign out securely.
 
-## Must-have features
-1. Join the queue from your phone: pick service(s) and barber (or 'Any')
-2. Live status: your position, estimated wait, 'You're next!' alert
-3. Receptionist dashboard: add walk-ins, call next, mark no-show
-4. Barber screen: current customer, Start / Done
-5. Waiting-area TV: who's with which barber + next 5 tokens
-6. Owner settings: services (time + price), barbers on duty, open/close queue
+### Must-Have Features
+1. **Bilingual Mobile Check-In:** Full English & Hindi (हिंदी) localization toggle.
+2. **Dynamic Multi-Service Picker:** Real-time calculation of total duration and price with dynamic stylist recommendation matching service tags.
+3. **Live Digital Token:** Animated SVG circular progress ring, elapsed minutes counter, dynamic status stepper (`waiting` → `serving` → `completed`), and cancellation modal.
+4. **Marine Navy Lounge TV Board (`/display`):** High-contrast wall monitor display with animated audio visualizer bars, live station cards, up-next lists, and time display.
+5. **Harmonic Web Audio Chime:** Pure browser-synthesized Solfeggio 528 Hz + 1056 Hz chime alert (zero external audio files).
+6. **Admin Concierge Command (`/admin`):** Walk-in modal, live search, automated patron simulator, check-in QR code modal, and full queue ledger.
+7. **Role-Based Admin Authentication (`/login`):** PIN quick-fill (`7788`) and Email/Password (`admin@luxecuts.com` / `luxe2026`) with route guarding (`ProtectedRoute.tsx`).
+8. **Real-Time Data Engine:** Node.js HTTP Server (`server/server.js`) on port 3001 with persistent JSON DB (`database.json`), Server-Sent Events (`/api/events`), optional Supabase PostgreSQL, and BroadcastChannel multi-tab sync.
+9. **Floor Performance Analytics (`/analytics`):** Hourly footfall histogram, service demand distribution bar chart, and CSV export.
+10. **Customer Review (`/feedback/:token`):** 5-star interactive rating with physics-based canvas confetti explosion.
+11. **Lounge Closure Screen (`/closed`):** Evening closing view with operating hours.
 
-## Don't build
-Online payment, future-date appointments, SMS/WhatsApp, loyalty, multiple branches.
+### Out of Scope (What NOT to Build)
+- Direct online credit card payment processing (handled at physical concierge counter).
+- Multi-branch salon franchise switching.
+- SMS / WhatsApp carrier integrations (handled via live browser state, SSE, and Web Audio chimes).
+- Future-date appointment calendar booking (app is dedicated to day-of walk-in queue management).
 
-## Look & feel
-Premium salon feel: dark charcoal (#1F2937) + gold (#D4A017) accent, clean, mobile-first.
-Labels in English and Gujarati.
+### Design & Atmospheric Language
+- **Theme:** Dynamic Blue & White with shades of blue:
+  - Pure White (`#FFFFFF`) & Ice Blue (`#F0F7FF`, `#EBF4FC`)
+  - Royal Sapphire (`#1D4ED8`, `#2563EB`)
+  - Sky Blue (`#0284C7`, `#38BDF8`)
+  - Deep Marine Navy (`#0A192F`)
+- **Living Ambient UI:** Floating glowing blue background orbs (`.ambient-bg`), dynamic elevated cards (`.dynamic-card`), and real-time floating activity toasts (`LiveToast.tsx`).
+- **Typography:** Serif `Playfair Display` for bold titles paired with `Inter` for clean tabular numbers.

@@ -1,0 +1,530 @@
+import { useState, useEffect } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import { useQueueStore } from '../stores/queueStore'
+import { useAuthStore } from '../stores/authStore'
+import { SERVICES } from '../lib/utils'
+import { LoungeQRCode } from '../components/ui/QRCode'
+import { Scissors, Users, TrendingUp, Plus, UserX, ArrowLeft, BarChart3, QrCode, Sparkles, Moon, Database, Search, Filter, Play, Pause, LogOut } from 'lucide-react'
+
+export default function AdminDashboard() {
+  const { queue, barbers, addToQueue, updateBarberStatus, updateStatus, resetToSampleData, isLiveDbConnected } = useQueueStore()
+  const { logout, user } = useAuthStore()
+  const navigate = useNavigate()
+  const [showWalkinModal, setShowWalkinModal] = useState(false)
+  const [showQRModal, setShowQRModal] = useState(false)
+  const [walkinName, setWalkinName] = useState('')
+  const [walkinService, setWalkinService] = useState(SERVICES[0].id)
+  const [walkinBarber, setWalkinBarber] = useState(barbers[0].id)
+  const [activeTab, setActiveTab] = useState<'queue' | 'history'>('queue')
+
+  // Dynamic search and filter
+  const [searchQuery, setSearchQuery] = useState('')
+  const [barberFilter, setBarberFilter] = useState<string>('all')
+
+  // Dynamic Automated Patron Simulator
+  const [autoSimulate, setAutoSimulate] = useState(false)
+
+  const totalWaiting = queue.filter(q => q.status === 'waiting').length
+  const totalServing = queue.filter(q => q.status === 'serving').length
+  const totalCompleted = queue.filter(q => q.status === 'completed').length
+  const totalNoShow = queue.filter(q => q.status === 'absent').length
+
+  const handleSimulatePatron = () => {
+    const patronNames = ['Oliver', 'Emma', 'Liam', 'Lucas', 'Priya', 'Kabir', 'Zoya', 'Vikram', 'Aria', 'Noah']
+    const randomName = patronNames[Math.floor(Math.random() * patronNames.length)]
+    const randomService = SERVICES[Math.floor(Math.random() * SERVICES.length)]
+    const activeBarbers = barbers.filter(b => b.status === 'available')
+    const targetBarber = activeBarbers.length > 0
+      ? activeBarbers[Math.floor(Math.random() * activeBarbers.length)]
+      : barbers[0]
+
+    addToQueue({
+      customer_name: randomName,
+      service: randomService.name_en,
+      service_duration: randomService.duration,
+      barber_id: targetBarber.id,
+      barber_name: targetBarber.name,
+      language: 'en'
+    })
+  }
+
+  // Auto-simulator interval effect
+  useEffect(() => {
+    if (!autoSimulate) return
+    const interval = setInterval(() => {
+      handleSimulatePatron()
+    }, 20000) // every 20 seconds
+    return () => clearInterval(interval)
+  }, [autoSimulate, barbers])
+
+  const handleCreateWalkin = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!walkinName.trim()) return
+
+    const s = SERVICES.find(svc => svc.id === walkinService)!
+    const b = barbers.find(barb => barb.id === walkinBarber)!
+
+    addToQueue({
+      customer_name: walkinName.trim(),
+      service: s.name_en,
+      service_duration: s.duration,
+      barber_id: b.id,
+      barber_name: b.name,
+      language: 'en'
+    })
+
+    setWalkinName('')
+    setShowWalkinModal(false)
+  }
+
+  // Filtered queue items
+  const filteredQueue = queue
+    .filter(item => (activeTab === 'queue' ? (item.status === 'waiting' || item.status === 'serving') : (item.status === 'completed' || item.status === 'absent')))
+    .filter(item => (barberFilter === 'all' ? true : item.barber_id === barberFilter))
+    .filter(item => {
+      if (!searchQuery.trim()) return true
+      const q = searchQuery.toLowerCase()
+      return item.customer_name.toLowerCase().includes(q) || item.token.toLowerCase().includes(q) || item.service.toLowerCase().includes(q)
+    })
+
+  return (
+    <div className="min-h-screen text-slate-800">
+      
+      {/* Admin Nav */}
+      <header className="flex items-center justify-between px-8 py-4 border-b border-blue-100 bg-white/80 backdrop-blur-md sticky top-0 z-30">
+        <div className="flex items-center gap-4">
+          <Link
+            to="/join"
+            className="p-2 rounded-xl text-xs font-semibold flex items-center gap-1.5 text-blue-700 bg-blue-50 hover:bg-blue-100 transition-all border border-blue-100"
+          >
+            <ArrowLeft size={15} />
+            <span className="hidden sm:inline">Guest View</span>
+          </Link>
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-gradient-to-tr from-blue-700 via-blue-600 to-sky-400 text-white shadow-sm">
+              <Scissors size={20} />
+            </div>
+            <div>
+              <div className="flex items-center gap-2">
+                <h1 className="font-display text-xl font-black text-slate-950 tracking-tight">LUXE CUTS</h1>
+                <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-blue-100 text-blue-800">
+                  Concierge Command
+                </span>
+              </div>
+              <p className="text-xs text-blue-600 font-medium">Lounge Operations & Real-time Ledger</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Action Controls */}
+        <div className="flex items-center gap-2.5 flex-wrap">
+          {/* Dynamic Auto-Simulation Toggle */}
+          <button
+            onClick={() => setAutoSimulate(!autoSimulate)}
+            className={`text-xs px-3 py-1.5 rounded-xl font-bold transition-all flex items-center gap-1.5 border ${
+              autoSimulate
+                ? 'bg-emerald-600 text-white border-emerald-600 shadow-md animate-pulse'
+                : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-50'
+            }`}
+            title="Automatically inject simulated guests every 20s"
+          >
+            {autoSimulate ? <Pause size={13} /> : <Play size={13} />}
+            <span>Auto-Simulate: {autoSimulate ? 'ON' : 'OFF'}</span>
+          </button>
+
+          <button
+            onClick={handleSimulatePatron}
+            title="Inject simulated patron for instant live test"
+            className="text-xs px-3 py-2 rounded-xl font-bold transition-all flex items-center gap-1.5 bg-blue-50 text-blue-700 border border-blue-200 hover:bg-blue-100 shadow-sm"
+          >
+            <Sparkles size={14} className="text-blue-600" />
+            <span>+ 1 Guest</span>
+          </button>
+
+          <button
+            onClick={() => setShowQRModal(true)}
+            title="Display Check-in QR Code"
+            className="text-xs px-3 py-2 rounded-xl font-bold transition-all flex items-center gap-1.5 bg-white text-slate-700 border border-slate-200 hover:bg-slate-50 shadow-sm"
+          >
+            <QrCode size={14} className="text-blue-600" />
+            <span>Scan QR</span>
+          </button>
+
+          <Link
+            to="/analytics"
+            className="text-xs px-3 py-2 rounded-xl font-bold transition-all flex items-center gap-1.5 bg-white text-slate-700 border border-slate-200 hover:bg-slate-50 shadow-sm"
+          >
+            <BarChart3 size={14} className="text-blue-600" />
+            <span>Analytics</span>
+          </Link>
+
+          <Link
+            to="/closed"
+            className="text-xs px-3 py-2 rounded-xl font-bold transition-all flex items-center gap-1.5 bg-white text-slate-700 border border-slate-200 hover:bg-slate-50 shadow-sm"
+          >
+            <Moon size={14} className="text-slate-500" />
+            <span>Closed</span>
+          </Link>
+
+          <button
+            onClick={() => setShowWalkinModal(true)}
+            className="btn-primary py-2 px-3.5 text-xs font-bold flex items-center gap-1.5"
+          >
+            <Plus size={15} />
+            <span>+ Walk-In</span>
+          </button>
+
+          <Link
+            to="/display"
+            target="_blank"
+            className="text-xs px-3.5 py-2 rounded-xl font-bold transition-all bg-blue-600 text-white hover:bg-blue-500 shadow-sm"
+          >
+            📺 Floor TV
+          </Link>
+
+          <button
+            onClick={() => {
+              logout()
+              navigate('/login')
+            }}
+            title="Sign out of concierge command"
+            className="text-xs px-3 py-2 rounded-xl font-bold transition-all flex items-center gap-1.5 bg-rose-50 text-rose-700 border border-rose-200 hover:bg-rose-100 shadow-sm"
+          >
+            <LogOut size={14} />
+            <span className="hidden sm:inline">Sign Out</span>
+          </button>
+        </div>
+      </header>
+
+      {/* Main Content Area */}
+      <main className="max-w-7xl mx-auto p-8 space-y-8">
+        
+        {/* KPI Cards in Blue and White with dynamic elevation */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div className="dynamic-card p-5 border-l-4 border-l-blue-600">
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-xs uppercase font-bold text-slate-500">Currently in Line</span>
+              <Users size={18} className="text-blue-600" />
+            </div>
+            <div className="font-display text-4xl font-black text-slate-950">{totalWaiting}</div>
+            <span className="text-xs text-blue-700 font-semibold mt-1 block">Across 3 Stylist Stations</span>
+          </div>
+
+          <div className="dynamic-card p-5 border-l-4 border-l-emerald-500">
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-xs uppercase font-bold text-slate-500">Active in Chair</span>
+              <Scissors size={18} className="text-emerald-600" />
+            </div>
+            <div className="font-display text-4xl font-black text-emerald-800">{totalServing}</div>
+            <span className="text-xs text-emerald-600 font-semibold mt-1 block">Services in progress</span>
+          </div>
+
+          <div className="dynamic-card p-5 border-l-4 border-l-sky-500">
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-xs uppercase font-bold text-slate-500">Served Today</span>
+              <TrendingUp size={18} className="text-sky-600" />
+            </div>
+            <div className="font-display text-4xl font-black text-blue-950">{totalCompleted + 22}</div>
+            <span className="text-xs text-slate-400 font-semibold mt-1 block">Daily standard: 35 patrons</span>
+          </div>
+
+          <div className="dynamic-card p-5 border-l-4 border-l-rose-400">
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-xs uppercase font-bold text-slate-500">No-Show / Cancel</span>
+              <UserX size={18} className="text-rose-500" />
+            </div>
+            <div className="font-display text-4xl font-black text-rose-700">{totalNoShow}</div>
+            <span className="text-xs text-rose-500 font-semibold mt-1 block">{(totalNoShow * 2.8).toFixed(1)}% of total traffic</span>
+          </div>
+        </div>
+
+        {/* Stylist Duty Management Panel */}
+        <section className="dynamic-card p-6">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="font-display text-xl font-bold text-slate-900">Stylist Stations On Duty</h2>
+            <button
+              onClick={resetToSampleData}
+              className="text-xs text-slate-400 hover:text-slate-600 underline font-medium"
+            >
+              Reset Sample Data
+            </button>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {barbers.map(barber => {
+              const inChair = queue.find(q => q.barber_id === barber.id && q.status === 'serving')
+              const waiting = queue.filter(q => q.barber_id === barber.id && q.status === 'waiting').length
+
+              return (
+                <div
+                  key={barber.id}
+                  className="rounded-2xl p-4 flex flex-col justify-between bg-blue-50/40 border border-blue-100 hover:border-blue-200 transition-all shadow-sm"
+                >
+                  <div className="flex items-center justify-between mb-3">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-xl flex items-center justify-center font-display font-black text-white text-base bg-gradient-to-tr from-blue-700 via-blue-600 to-sky-400 shadow-sm">
+                        {barber.avatar}
+                      </div>
+                      <div>
+                        <div className="font-display font-bold text-slate-950">{barber.name}</div>
+                        <div className="text-xs text-slate-500">{barber.specialty}</div>
+                      </div>
+                    </div>
+
+                    <select
+                      value={barber.status}
+                      onChange={(e) => updateBarberStatus(barber.id, e.target.value as any)}
+                      className="text-xs rounded-xl px-2.5 py-1 font-bold outline-none border cursor-pointer bg-white text-blue-900 border-blue-200 shadow-sm"
+                    >
+                      <option value="available">Active</option>
+                      <option value="break">On Break</option>
+                      <option value="offline">Offline</option>
+                    </select>
+                  </div>
+
+                  <div className="space-y-1.5 text-xs py-2.5 border-t border-b border-blue-100/60 mb-3">
+                    <div className="flex justify-between">
+                      <span className="text-slate-500">Current In Chair:</span>
+                      <strong className="text-blue-900 font-bold">{inChair ? `${inChair.token} (${inChair.customer_name})` : 'Available'}</strong>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-slate-500">Waitlist:</span>
+                      <strong className="text-blue-700 font-bold">{waiting} waiting</strong>
+                    </div>
+                  </div>
+
+                  <Link
+                    to={`/barber/${barber.id}`}
+                    className="text-xs text-center py-2 rounded-xl font-bold bg-white text-blue-700 border border-blue-200 hover:bg-blue-50 transition-colors shadow-sm block"
+                  >
+                    Open Station Cockpit →
+                  </Link>
+                </div>
+              )
+            })}
+          </div>
+        </section>
+
+        {/* Global Live Queue Ledger with Dynamic Search and Filter */}
+        <section className="dynamic-card p-6">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+            <div className="flex items-center gap-3">
+              <h2 className="font-display text-xl font-bold text-slate-900">Master Queue Ledger</h2>
+              <div className="flex rounded-xl p-1 bg-slate-100 border border-slate-200">
+                <button
+                  onClick={() => setActiveTab('queue')}
+                  className={`text-xs px-3 py-1.5 rounded-lg font-bold transition-all ${
+                    activeTab === 'queue' ? 'bg-blue-600 text-white shadow-sm' : 'text-slate-600'
+                  }`}
+                >
+                  Live Queue ({queue.filter(q => q.status === 'waiting' || q.status === 'serving').length})
+                </button>
+                <button
+                  onClick={() => setActiveTab('history')}
+                  className={`text-xs px-3 py-1.5 rounded-lg font-bold transition-all ${
+                    activeTab === 'history' ? 'bg-blue-600 text-white shadow-sm' : 'text-slate-600'
+                  }`}
+                >
+                  Completed ({totalCompleted})
+                </button>
+              </div>
+            </div>
+
+            {/* Dynamic Search & Stylist Filters */}
+            <div className="flex items-center gap-3">
+              <div className="relative">
+                <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+                <input
+                  type="text"
+                  placeholder="Search token or name…"
+                  value={searchQuery}
+                  onChange={e => setSearchQuery(e.target.value)}
+                  className="pl-8 pr-3 py-1.5 rounded-xl border border-blue-200 text-xs font-semibold outline-none focus:border-blue-500 bg-white"
+                />
+              </div>
+
+              <select
+                value={barberFilter}
+                onChange={e => setBarberFilter(e.target.value)}
+                className="py-1.5 px-3 rounded-xl border border-blue-200 text-xs font-semibold outline-none bg-white text-slate-700"
+              >
+                <option value="all">All Stylists</option>
+                {barbers.map(b => (
+                  <option key={b.id} value={b.id}>{b.name}</option>
+                ))}
+              </select>
+            </div>
+          </div>
+
+          <div className="overflow-x-auto">
+            <table className="w-full text-left text-sm">
+              <thead>
+                <tr className="border-b border-slate-100 text-xs uppercase text-slate-500 font-bold">
+                  <th className="pb-3">Token</th>
+                  <th className="pb-3">Patron Name</th>
+                  <th className="pb-3">Service</th>
+                  <th className="pb-3">Stylist</th>
+                  <th className="pb-3">Status</th>
+                  <th className="pb-3 text-right">Actions</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-100">
+                {filteredQueue.length > 0 ? (
+                  filteredQueue.map(entry => (
+                    <tr key={entry.id} className="hover:bg-blue-50/40 transition-colors">
+                      <td className="py-3 font-mono font-black text-blue-700">
+                        {entry.token}
+                      </td>
+                      <td className="py-3 font-bold text-slate-900">
+                        {entry.customer_name}
+                      </td>
+                      <td className="py-3 text-slate-600 text-xs">
+                        {entry.service}
+                      </td>
+                      <td className="py-3 font-bold text-blue-900 text-xs">
+                        {entry.barber_name}
+                      </td>
+                      <td className="py-3">
+                        <span className={`text-xs px-2.5 py-1 rounded-full font-bold ${
+                          entry.status === 'serving' ? 'bg-emerald-100 text-emerald-800' :
+                          entry.status === 'waiting' ? 'bg-blue-100 text-blue-800' :
+                          entry.status === 'completed' ? 'bg-slate-100 text-slate-600' :
+                          'bg-rose-100 text-rose-700'
+                        }`}>
+                          {entry.status}
+                        </span>
+                      </td>
+                      <td className="py-3 text-right">
+                        {entry.status === 'waiting' && (
+                          <button
+                            onClick={() => updateStatus(entry.id, 'absent')}
+                            className="text-xs px-2.5 py-1 rounded-lg font-bold text-rose-600 hover:bg-rose-50 border border-transparent hover:border-rose-200 transition-colors"
+                          >
+                            Remove
+                          </button>
+                        )}
+                        {entry.status === 'serving' && (
+                          <button
+                            onClick={() => updateStatus(entry.id, 'completed')}
+                            className="text-xs px-2.5 py-1 rounded-lg font-bold text-emerald-700 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 transition-colors"
+                          >
+                            Mark Done
+                          </button>
+                        )}
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan={6} className="text-center py-8 text-xs text-slate-400">
+                      No patrons match your search or filter.
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+      </main>
+
+      {/* Walk-in Form Modal */}
+      {showWalkinModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm">
+          <div className="w-full max-w-md rounded-3xl p-6 bg-white shadow-2xl border border-blue-100 animate-slide-up">
+            <h3 className="font-display text-2xl font-bold text-slate-950 mb-1">Add Floor Walk-In</h3>
+            <p className="text-xs text-slate-500 mb-5">Manually register patron directly into station queue</p>
+
+            <form onSubmit={handleCreateWalkin} className="space-y-4">
+              <div>
+                <label className="text-xs font-bold uppercase text-slate-600 block mb-1">Guest Name</label>
+                <input
+                  type="text"
+                  required
+                  placeholder="Patron Name"
+                  value={walkinName}
+                  onChange={e => setWalkinName(e.target.value)}
+                  className="input-clean"
+                />
+              </div>
+
+              <div>
+                <label className="text-xs font-bold uppercase text-slate-600 block mb-1">Service</label>
+                <select
+                  value={walkinService}
+                  onChange={e => setWalkinService(e.target.value)}
+                  className="input-clean"
+                >
+                  {SERVICES.map(s => (
+                    <option key={s.id} value={s.id}>
+                      {s.icon} {s.name_en} ({s.duration}m - ₹{s.price})
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div>
+                <label className="text-xs font-bold uppercase text-slate-600 block mb-1">Assign Stylist</label>
+                <select
+                  value={walkinBarber}
+                  onChange={e => setWalkinBarber(e.target.value)}
+                  className="input-clean"
+                >
+                  {barbers.map(b => (
+                    <option key={b.id} value={b.id}>
+                      {b.name} ({b.queue_count} in queue)
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="grid grid-cols-2 gap-3 pt-4">
+                <button
+                  type="button"
+                  onClick={() => setShowWalkinModal(false)}
+                  className="btn-ghost py-2.5 text-xs font-bold"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="btn-primary py-2.5 text-xs font-bold"
+                >
+                  Issue Token
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* QR Code Modal for Front Desk / Lounge Display */}
+      {showQRModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm">
+          <div className="w-full max-w-sm rounded-3xl p-6 text-center bg-white shadow-2xl border border-blue-100 animate-slide-up">
+            <h3 className="font-display text-2xl font-bold text-slate-950 mb-1">Scan for Mobile Queue</h3>
+            <p className="text-xs text-slate-500 mb-5">
+              Patrons can aim their camera to join the queue on their phone
+            </p>
+
+            <div className="flex justify-center mb-5">
+              <LoungeQRCode value={`${window.location.origin}/join`} size={190} />
+            </div>
+
+            <div className="text-xs mb-6 font-mono font-bold text-blue-700 bg-blue-50 py-1.5 px-3 rounded-xl border border-blue-100">
+              {window.location.origin}/join
+            </div>
+
+            <button
+              onClick={() => setShowQRModal(false)}
+              className="w-full btn-primary py-3 text-sm font-bold"
+            >
+              Close Window
+            </button>
+          </div>
+        </div>
+      )}
+
+    </div>
+  )
+}

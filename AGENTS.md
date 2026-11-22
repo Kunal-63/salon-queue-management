@@ -1,25 +1,23 @@
-# AGENTS.md — Salon Queue Management
+# AGENTS.md — LUXE CUTS Architecture Rules
+## Instructions for AI Agents & Developers
 
-Queue app for a salon: customers join from their phone, see wait time and get
-called; reception and barbers manage the queue; a TV shows who is next.
+### Project Overview
+LUXE CUTS is a production-grade, real-time salon queue orchestration platform built with React + Vite + TypeScript + Tailwind CSS + Node.js.
 
-## Read first
-- docs/01-brief.md -> features + what NOT to build
-- docs/02-screens.md -> every screen's layout and behaviour
-- docs/03-flows-rules.md -> flows, queue rules, test checklist
-
-## Stack
-React + Vite + TypeScript + Tailwind (client/), Node + Express + Socket.IO +
-SQLite (server/). Run everything with `npm run dev`.
-Hosting: Vercel (client), Render (server). No localhost URLs in code; use
-environment variables.
-
-## How to work
-- One screen or one feature per task. Don't touch other screens.
-- Theme: charcoal #1F2937 + gold #D4A017, rounded cards, mobile-first.
-- All labels come from the EN/GU language file; no hard-coded text.
-- Queue rules live in ONE module on the server; reuse them everywhere.
-- The server is the source of truth; the client never calculates queue order.
-- Never add features from the "Don't build" list.
-- Run the app and test before saying anything works.
-- After each task: list changed files and how to test, then commit.
+### Core Working Rules
+1. **Design System (Anti-Generic / Bespoke Look):**
+   - Theme must be **Dynamic Blue & White**: Pure White (`#FFFFFF`), Ice Blue (`#F0F7FF`), Royal Sapphire (`#1D4ED8`, `#2563EB`), Sky Blue (`#0284C7`), Deep Marine Navy (`#0A192F`).
+   - Use ambient living orbs (`.ambient-bg`) and elevated interactive cards (`.dynamic-card`).
+   - Do NOT use generic template aesthetics.
+2. **State Management & Storage:**
+   - All shared queue state lives in Zustand `queueStore.ts`.
+   - Real-time updates utilize a 3-layer architecture:
+     1. Node.js backend server (`server/server.js`) on port 3001 with persistent JSON DB and Server-Sent Events (`/api/events`).
+     2. Supabase PostgreSQL cloud sync via `@supabase/supabase-js`.
+     3. Cross-tab `BroadcastChannel` fallback.
+3. **Audio & Sensory Feedback:**
+   - Web Audio API pure synthesizer (528 Hz / 1056 Hz harmonic tone) for chime alerts.
+   - Canvas physics engine for feedback confetti.
+4. **Security & Routes:**
+   - Route guard `ProtectedRoute.tsx` protects `/admin` and `/analytics`.
+   - Store session in `useAuthStore.ts` with PIN `7788` or Email `admin@luxecuts.com` / `luxe2026`.
