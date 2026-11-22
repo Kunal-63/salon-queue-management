@@ -47,92 +47,92 @@ export default function LiveDisplay() {
 
   return (
     <div
-      className="h-screen w-screen overflow-hidden flex flex-col justify-between p-6 select-none bg-gradient-to-b from-[#0A192F] via-[#0E2A52] to-[#07162C] text-white relative"
+      className="min-h-screen lg:h-screen w-full overflow-y-auto lg:overflow-hidden flex flex-col justify-between p-3 sm:p-6 select-none bg-gradient-to-b from-[#0A192F] via-[#0E2A52] to-[#07162C] text-white relative"
     >
       {/* Background Animated Atmosphere Glow */}
       <div className="absolute top-0 right-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl pointer-events-none animate-pulse-blue" />
       <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-sky-500/10 rounded-full blur-3xl pointer-events-none animate-float-slow" />
 
       {/* Top Header Bar */}
-      <header className="flex items-center justify-between border-b border-blue-400/20 pb-4 relative z-10">
-        <div className="flex items-center gap-4">
-          <div className="w-12 h-12 rounded-2xl flex items-center justify-center bg-gradient-to-tr from-blue-600 via-blue-500 to-sky-300 shadow-lg shadow-blue-500/30 text-white">
-            <Scissors size={26} />
+      <header className="flex flex-col md:flex-row items-start md:items-center justify-between gap-3 border-b border-blue-400/20 pb-4 relative z-10 w-full">
+        <div className="flex items-center gap-3 sm:gap-4">
+          <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl flex items-center justify-center bg-gradient-to-tr from-blue-600 via-blue-500 to-sky-300 shadow-lg shadow-blue-500/30 text-white flex-shrink-0">
+            <Scissors size={22} />
           </div>
           <div>
-            <div className="flex items-center gap-3">
-              <h1 className="font-display text-3xl font-black tracking-tight text-white">
+            <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
+              <h1 className="font-display text-2xl sm:text-3xl font-black tracking-tight text-white">
                 LUXE<span className="text-sky-400">CUTS</span>
               </h1>
-              <span className="text-xs px-3 py-0.5 rounded-full font-bold uppercase tracking-wider bg-blue-500/20 text-sky-300 border border-blue-400/30">
-                Live Lounge Calling Floor
+              <span className="text-[10px] sm:text-xs px-2.5 py-0.5 rounded-full font-bold uppercase tracking-wider bg-blue-500/20 text-sky-300 border border-blue-400/30">
+                Calling Floor
               </span>
             </div>
-            <p className="text-xs tracking-widest uppercase font-medium text-blue-200 mt-0.5">
+            <p className="text-[10px] sm:text-xs tracking-widest uppercase font-medium text-blue-200 mt-0.5">
               Priority Styling Terminal · Mayfair Suites
             </p>
           </div>
         </div>
 
         {/* Live Audio Visualizer / Clock / Controls */}
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-2.5 sm:gap-4 w-full md:w-auto justify-between md:justify-end">
           {/* Animated Audio Visualizer Bars when chime plays */}
           {audioPulsing && (
-            <div className="flex items-center gap-1 px-3 py-1.5 rounded-xl bg-emerald-500/20 border border-emerald-400/40 text-emerald-300 text-xs font-bold animate-pulse">
-              <span className="w-1 h-4 bg-emerald-400 rounded-full animate-bounce" />
-              <span className="w-1 h-6 bg-emerald-400 rounded-full animate-bounce [animation-delay:0.15s]" />
-              <span className="w-1 h-3 bg-emerald-400 rounded-full animate-bounce [animation-delay:0.3s]" />
-              <span className="ml-1">Calling Floor…</span>
+            <div className="flex items-center gap-1 px-2.5 py-1 rounded-xl bg-emerald-500/20 border border-emerald-400/40 text-emerald-300 text-xs font-bold animate-pulse">
+              <span className="w-1 h-3.5 bg-emerald-400 rounded-full animate-bounce" />
+              <span className="w-1 h-5 bg-emerald-400 rounded-full animate-bounce [animation-delay:0.15s]" />
+              <span className="w-1 h-2.5 bg-emerald-400 rounded-full animate-bounce [animation-delay:0.3s]" />
+              <span className="ml-1 text-[11px]">Calling…</span>
             </div>
           )}
 
-          <div className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-blue-900/40 border border-blue-400/20 text-xs font-semibold text-blue-200">
+          <div className="hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-blue-900/40 border border-blue-400/20 text-xs font-semibold text-blue-200">
             <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
             <Database size={13} className="text-sky-300" />
             <span>{isLiveDbConnected ? 'Supabase Postgres Live' : 'Dynamic Realtime Active'}</span>
           </div>
 
-          <div className="text-right">
-            <div className="font-display text-3xl font-bold tracking-tight text-white">
+          <div className="text-left md:text-right">
+            <div className="font-display text-xl sm:text-3xl font-bold tracking-tight text-white">
               {time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })}
             </div>
-            <div className="text-xs uppercase font-semibold tracking-wider text-sky-300">
+            <div className="text-[10px] sm:text-xs uppercase font-semibold tracking-wider text-sky-300">
               {time.toLocaleDateString([], { weekday: 'short', month: 'short', day: 'numeric' })}
             </div>
           </div>
 
-          <div className="h-9 w-px bg-blue-400/20" />
+          <div className="h-7 sm:h-9 w-px bg-blue-400/20" />
 
           {/* QR Code trigger on TV display */}
           <button
             onClick={() => setShowTVQRCode(true)}
             title="Scan QR to Join on Phone"
-            className="p-3 rounded-xl transition-all bg-blue-900/40 hover:bg-blue-800/60 border border-blue-400/30 text-sky-300 flex items-center gap-1.5 text-xs font-bold"
+            className="p-2 sm:p-3 rounded-xl transition-all bg-blue-900/40 hover:bg-blue-800/60 border border-blue-400/30 text-sky-300 flex items-center gap-1.5 text-xs font-bold"
           >
-            <QrCode size={18} />
-            <span className="hidden sm:inline">Join QR</span>
+            <QrCode size={16} />
+            <span className="hidden sm:inline">QR</span>
           </button>
 
           <button
             onClick={() => setSoundEnabled(!soundEnabled)}
             title={soundEnabled ? 'Mute announcement chime' : 'Enable announcement chime'}
-            className="p-3 rounded-xl transition-all bg-blue-900/40 hover:bg-blue-800/60 border border-blue-400/30 text-sky-300"
+            className="p-2 sm:p-3 rounded-xl transition-all bg-blue-900/40 hover:bg-blue-800/60 border border-blue-400/30 text-sky-300"
           >
-            {soundEnabled ? <Volume2 size={18} className="text-emerald-400" /> : <VolumeX size={18} className="text-rose-400" />}
+            {soundEnabled ? <Volume2 size={16} className="text-emerald-400" /> : <VolumeX size={16} className="text-rose-400" />}
           </button>
 
           <button
             onClick={toggleFullScreen}
             title="Toggle Fullscreen"
-            className="p-3 rounded-xl transition-all bg-blue-900/40 hover:bg-blue-800/60 border border-blue-400/30 text-sky-300"
+            className="p-2 sm:p-3 rounded-xl transition-all bg-blue-900/40 hover:bg-blue-800/60 border border-blue-400/30 text-sky-300"
           >
-            <Maximize2 size={18} />
+            <Maximize2 size={16} />
           </button>
         </div>
       </header>
 
-      {/* Main Barbers 3-Column Layout */}
-      <main className="grid grid-cols-3 gap-6 flex-1 py-6 min-h-0 relative z-10">
+      {/* Main Barbers Responsive Grid (1 col on mobile, 3 cols on desktop) */}
+      <main className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 flex-1 py-4 sm:py-6 relative z-10">
         {barbers.map(barber => {
           const currentlyServing = queue.find(e => e.barber_id === barber.id && e.status === 'serving')
           const barberQueue = queue.filter(e => e.barber_id === barber.id && e.status === 'waiting')

@@ -38,10 +38,10 @@ export default function CustomerFeedback() {
 
   return (
     <div
-      className="min-h-screen flex flex-col justify-between p-6 select-none bg-gradient-to-b from-[#F0F7FF] via-[#FFFFFF] to-[#E2EFFF] text-slate-800"
+      className="min-h-screen flex flex-col justify-between p-4 sm:p-6 select-none bg-gradient-to-b from-[#F0F7FF] via-[#FFFFFF] to-[#E2EFFF] text-slate-800"
     >
       {/* Top Header */}
-      <nav className="flex items-center justify-between max-w-lg mx-auto w-full pt-4">
+      <nav className="flex items-center justify-between max-w-lg mx-auto w-full pt-2 sm:pt-4">
         <div className="flex items-center gap-2">
           <div className="w-8 h-8 rounded-xl flex items-center justify-center bg-gradient-to-tr from-blue-700 to-sky-400 text-white shadow-sm">
             <Scissors size={16} />
@@ -54,10 +54,10 @@ export default function CustomerFeedback() {
       </nav>
 
       {/* Main Feedback Card */}
-      <main className="max-w-md mx-auto w-full py-8">
+      <main className="max-w-md mx-auto w-full py-4 sm:py-8">
         {!submitted ? (
           <div
-            className="rounded-3xl p-8 bg-white border border-blue-100 shadow-xl shadow-blue-500/10 animate-slide-up"
+            className="rounded-3xl p-5 sm:p-8 bg-white border border-blue-100 shadow-xl shadow-blue-500/10 animate-slide-up"
           >
             {/* Patron Summary */}
             <div className="text-center mb-6">

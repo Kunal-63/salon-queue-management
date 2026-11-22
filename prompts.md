@@ -83,3 +83,30 @@
 - Verified all assignment requirements from the handout.
 - Formatted `README.md`, `prompts.md`, `reflection.md`, `AGENTS.md`, and `docs/`.
 - Configured git remote and pushed the repository.
+
+---
+
+### Step 8 — Single Branch & Deployment Verification
+**Prompt:**
+> *"my repo have 2 branches master and main, keep only one"*  
+> *"add all the links in readme like admin, babor and other ALL"*  
+> *"add my name and roll number as well, Kunal Adwani, 202612050, Msc IT"*
+
+**Outcome:**
+- Removed redundant `main` branch, setting `master` as the single canonical branch.
+- Documented all 11 live route variants with direct clickable links in `README.md`.
+- Added student details (Kunal Adwani, 202612050, MSc IT Sem 1) across all documentation and headers.
+- Bound Supabase environment keys dynamically in `vite.config.ts`.
+
+---
+
+### Step 9 — Complete Responsive Design Overhaul Across All Pages
+**Prompt:**
+> *"make admin dashboard responsive, also ALL other pages"*
+
+**Outcome:**
+- Refactored `AdminDashboard.tsx` with mobile quick action bars, responsive KPI cards (`grid-cols-2 lg:grid-cols-4`), horizontally scrollable table (`min-w-[550px]`), and modal scrollbars.
+- Refactored `BarberAnalytics.tsx` with responsive layout, scrollable hourly traffic charts, and responsive stylist table.
+- Refactored `BarberDashboard.tsx` with adaptive station headers and scaling token font sizes.
+- Refactored `LiveDisplay.tsx` to fluidly scale from single mobile column up to widescreen 3-column TV layout.
+- Polished `CustomerToken.tsx`, `JoinQueue.tsx`, `CustomerFeedback.tsx`, `AdminLogin.tsx`, `QueueClosed.tsx`, and `NotFound.tsx` for seamless 320px–360px mobile viewport rendering.

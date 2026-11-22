@@ -116,20 +116,20 @@ export default function JoinQueue() {
     <div className="min-h-screen text-slate-800">
       
       {/* Top Navigation */}
-      <nav className="flex items-center justify-between px-6 py-4 max-w-4xl mx-auto border-b border-blue-100/80 bg-white/80 backdrop-blur-md sticky top-0 z-30">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-2xl flex items-center justify-center bg-gradient-to-tr from-blue-700 via-blue-600 to-sky-400 text-white shadow-lg shadow-blue-500/25">
-            <Scissors size={20} />
+      <nav className="flex items-center justify-between px-4 sm:px-6 py-3 sm:py-4 max-w-4xl mx-auto border-b border-blue-100/80 bg-white/90 backdrop-blur-md sticky top-0 z-30">
+        <div className="flex items-center gap-2.5 sm:gap-3">
+          <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-2xl flex items-center justify-center bg-gradient-to-tr from-blue-700 via-blue-600 to-sky-400 text-white shadow-lg shadow-blue-500/25 flex-shrink-0">
+            <Scissors size={18} />
           </div>
           <div>
-            <div className="font-display font-black text-slate-950 text-xl tracking-tight leading-none">
+            <div className="font-display font-black text-slate-950 text-lg sm:text-xl tracking-tight leading-none">
               LUXE<span className="text-blue-600">CUTS</span>
             </div>
-            <div className="text-[11px] font-medium text-blue-600 tracking-wide mt-0.5">{t.tagline}</div>
+            <div className="text-[10px] sm:text-[11px] font-medium text-blue-600 tracking-wide mt-0.5">{t.tagline}</div>
           </div>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 sm:gap-3">
           {/* DB Live Status Indicator */}
           <div className="hidden sm:flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1 rounded-full bg-blue-50 border border-blue-200/80 text-blue-700">
             <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
@@ -137,14 +137,14 @@ export default function JoinQueue() {
             <span>{isLiveDbConnected ? 'Postgres Live' : 'Realtime Sync'}</span>
           </div>
 
-          <div className="flex items-center gap-1.5 text-xs font-bold px-3 py-1.5 rounded-full bg-blue-100/70 text-blue-700 border border-blue-200">
+          <div className="flex items-center gap-1.5 text-xs font-bold px-2.5 sm:px-3 py-1.5 rounded-full bg-blue-100/70 text-blue-700 border border-blue-200">
             <span className="w-2 h-2 rounded-full bg-blue-600 inline-block animate-ping" />
             <span>{totalWaiting} {t.waiting}</span>
           </div>
 
           <button
             onClick={() => setLang(l => (l === 'en' ? 'hi' : 'en'))}
-            className="text-xs px-3 py-1.5 rounded-full font-bold transition-all bg-white hover:bg-blue-50 border border-blue-200 text-blue-700 shadow-sm"
+            className="text-xs px-2.5 sm:px-3 py-1.5 rounded-full font-bold transition-all bg-white hover:bg-blue-50 border border-blue-200 text-blue-700 shadow-sm"
           >
             {lang === 'en' ? 'हिंदी' : 'EN'}
           </button>
@@ -152,22 +152,22 @@ export default function JoinQueue() {
       </nav>
 
       {/* Main Container */}
-      <div className="max-w-2xl mx-auto px-6 py-8 pb-16">
+      <div className="max-w-2xl mx-auto px-4 sm:px-6 py-6 sm:py-8 pb-16">
         
         {/* Hero Section */}
-        <div className="mt-4 mb-8 text-center sm:text-left">
-          <div className="inline-flex items-center gap-2 text-xs font-bold px-3.5 py-1.5 rounded-full mb-4 bg-blue-100/90 text-blue-700 border border-blue-200/80 shadow-sm">
+        <div className="mt-2 sm:mt-4 mb-6 sm:mb-8 text-center sm:text-left">
+          <div className="inline-flex items-center gap-2 text-xs font-bold px-3.5 py-1.5 rounded-full mb-3 sm:mb-4 bg-blue-100/90 text-blue-700 border border-blue-200/80 shadow-sm">
             <Sparkles size={13} className="text-blue-600 animate-spin-slow" />
             <span>Digital Concierge · Real-Time Calculation</span>
           </div>
 
-          <h1 className="font-display text-4xl sm:text-5xl font-black text-slate-950 tracking-tight leading-[1.1] mb-3">
+          <h1 className="font-display text-3xl sm:text-5xl font-black text-slate-950 tracking-tight leading-[1.15] sm:leading-[1.1] mb-3">
             {t.headline}{' '}
             <span className="bg-gradient-to-r from-blue-700 via-blue-600 to-sky-500 bg-clip-text text-transparent">
               {t.headline2}
             </span>
           </h1>
-          <p className="text-sm text-slate-600 leading-relaxed max-w-xl">{t.sub}</p>
+          <p className="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-xl">{t.sub}</p>
         </div>
 
         {/* Error notification */}
@@ -181,14 +181,14 @@ export default function JoinQueue() {
         {/* Dynamic Multi-Service Picker */}
         <div className="mb-8">
           <div className="flex items-center justify-between mb-2">
-            <h2 className="font-display text-xl font-bold text-slate-900">{t.chooseService}</h2>
+            <h2 className="font-display text-lg sm:text-xl font-bold text-slate-900">{t.chooseService}</h2>
             <span className="text-xs font-semibold text-blue-600 bg-blue-50 px-2.5 py-1 rounded-full border border-blue-100">
               {selectedServiceIds.length} Selected
             </span>
           </div>
           <p className="text-xs text-slate-500 mb-4">{t.serviceHint}</p>
 
-          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2.5 sm:gap-3">
             {SERVICES.map(svc => {
               const active = selectedServiceIds.includes(svc.id)
               return (

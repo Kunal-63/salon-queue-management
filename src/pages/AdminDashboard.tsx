@@ -91,37 +91,61 @@ export default function AdminDashboard() {
     <div className="min-h-screen text-slate-800">
       
       {/* Admin Nav */}
-      <header className="flex items-center justify-between px-8 py-4 border-b border-blue-100 bg-white/80 backdrop-blur-md sticky top-0 z-30">
-        <div className="flex items-center gap-4">
-          <Link
-            to="/join"
-            className="p-2 rounded-xl text-xs font-semibold flex items-center gap-1.5 text-blue-700 bg-blue-50 hover:bg-blue-100 transition-all border border-blue-100"
-          >
-            <ArrowLeft size={15} />
-            <span className="hidden sm:inline">Guest View</span>
-          </Link>
+      <header className="flex flex-col lg:flex-row lg:items-center justify-between gap-3 px-4 sm:px-8 py-3 sm:py-4 border-b border-blue-100 bg-white/90 backdrop-blur-md sticky top-0 z-30">
+        <div className="flex items-center justify-between w-full lg:w-auto gap-3">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-gradient-to-tr from-blue-700 via-blue-600 to-sky-400 text-white shadow-sm">
-              <Scissors size={20} />
-            </div>
-            <div>
-              <div className="flex items-center gap-2">
-                <h1 className="font-display text-xl font-black text-slate-950 tracking-tight">LUXE CUTS</h1>
-                <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-blue-100 text-blue-800">
-                  Concierge Command
-                </span>
+            <Link
+              to="/join"
+              className="p-2 rounded-xl text-xs font-semibold flex items-center gap-1.5 text-blue-700 bg-blue-50 hover:bg-blue-100 transition-all border border-blue-100 flex-shrink-0"
+              title="Return to guest join view"
+            >
+              <ArrowLeft size={15} />
+              <span className="hidden sm:inline">Guest View</span>
+            </Link>
+            <div className="flex items-center gap-2.5">
+              <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center bg-gradient-to-tr from-blue-700 via-blue-600 to-sky-400 text-white shadow-sm flex-shrink-0">
+                <Scissors size={18} />
               </div>
-              <p className="text-xs text-blue-600 font-medium">Lounge Operations & Real-time Ledger</p>
+              <div>
+                <div className="flex items-center gap-2">
+                  <h1 className="font-display text-lg sm:text-xl font-black text-slate-950 tracking-tight">LUXE CUTS</h1>
+                  <span className="text-[10px] sm:text-[11px] font-bold px-2 py-0.5 rounded-full bg-blue-100 text-blue-800 whitespace-nowrap">
+                    Concierge
+                  </span>
+                </div>
+                <p className="text-[11px] sm:text-xs text-blue-600 font-medium hidden sm:block">Lounge Operations & Real-time Ledger</p>
+              </div>
             </div>
+          </div>
+
+          {/* Mobile Right Quick Action: Walk-in + TV */}
+          <div className="flex items-center gap-2 lg:hidden">
+            <button
+              onClick={() => setShowWalkinModal(true)}
+              className="btn-primary py-1.5 px-3 text-xs font-bold flex items-center gap-1"
+            >
+              <Plus size={14} />
+              <span>Walk-In</span>
+            </button>
+            <button
+              onClick={() => {
+                logout()
+                navigate('/login')
+              }}
+              title="Sign Out"
+              className="p-2 rounded-xl text-xs font-bold bg-rose-50 text-rose-700 border border-rose-200"
+            >
+              <LogOut size={14} />
+            </button>
           </div>
         </div>
 
         {/* Action Controls */}
-        <div className="flex items-center gap-2.5 flex-wrap">
+        <div className="flex items-center gap-2 flex-wrap justify-start lg:justify-end">
           {/* Dynamic Auto-Simulation Toggle */}
           <button
             onClick={() => setAutoSimulate(!autoSimulate)}
-            className={`text-xs px-3 py-1.5 rounded-xl font-bold transition-all flex items-center gap-1.5 border ${
+            className={`text-xs px-2.5 sm:px-3 py-1.5 rounded-xl font-bold transition-all flex items-center gap-1.5 border ${
               autoSimulate
                 ? 'bg-emerald-600 text-white border-emerald-600 shadow-md animate-pulse'
                 : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-50'
@@ -129,13 +153,13 @@ export default function AdminDashboard() {
             title="Automatically inject simulated guests every 20s"
           >
             {autoSimulate ? <Pause size={13} /> : <Play size={13} />}
-            <span>Auto-Simulate: {autoSimulate ? 'ON' : 'OFF'}</span>
+            <span>Auto-Simulate: <span className="font-extrabold">{autoSimulate ? 'ON' : 'OFF'}</span></span>
           </button>
 
           <button
             onClick={handleSimulatePatron}
             title="Inject simulated patron for instant live test"
-            className="text-xs px-3 py-2 rounded-xl font-bold transition-all flex items-center gap-1.5 bg-blue-50 text-blue-700 border border-blue-200 hover:bg-blue-100 shadow-sm"
+            className="text-xs px-2.5 sm:px-3 py-1.5 rounded-xl font-bold transition-all flex items-center gap-1.5 bg-blue-50 text-blue-700 border border-blue-200 hover:bg-blue-100 shadow-sm"
           >
             <Sparkles size={14} className="text-blue-600" />
             <span>+ 1 Guest</span>
@@ -144,31 +168,31 @@ export default function AdminDashboard() {
           <button
             onClick={() => setShowQRModal(true)}
             title="Display Check-in QR Code"
-            className="text-xs px-3 py-2 rounded-xl font-bold transition-all flex items-center gap-1.5 bg-white text-slate-700 border border-slate-200 hover:bg-slate-50 shadow-sm"
+            className="text-xs px-2.5 sm:px-3 py-1.5 rounded-xl font-bold transition-all flex items-center gap-1.5 bg-white text-slate-700 border border-slate-200 hover:bg-slate-50 shadow-sm"
           >
             <QrCode size={14} className="text-blue-600" />
-            <span>Scan QR</span>
+            <span className="hidden sm:inline">Scan QR</span>
           </button>
 
           <Link
             to="/analytics"
-            className="text-xs px-3 py-2 rounded-xl font-bold transition-all flex items-center gap-1.5 bg-white text-slate-700 border border-slate-200 hover:bg-slate-50 shadow-sm"
+            className="text-xs px-2.5 sm:px-3 py-1.5 rounded-xl font-bold transition-all flex items-center gap-1.5 bg-white text-slate-700 border border-slate-200 hover:bg-slate-50 shadow-sm"
           >
             <BarChart3 size={14} className="text-blue-600" />
-            <span>Analytics</span>
+            <span className="hidden sm:inline">Analytics</span>
           </Link>
 
           <Link
             to="/closed"
-            className="text-xs px-3 py-2 rounded-xl font-bold transition-all flex items-center gap-1.5 bg-white text-slate-700 border border-slate-200 hover:bg-slate-50 shadow-sm"
+            className="text-xs px-2.5 sm:px-3 py-1.5 rounded-xl font-bold transition-all flex items-center gap-1.5 bg-white text-slate-700 border border-slate-200 hover:bg-slate-50 shadow-sm"
           >
             <Moon size={14} className="text-slate-500" />
-            <span>Closed</span>
+            <span className="hidden sm:inline">Closed</span>
           </Link>
 
           <button
             onClick={() => setShowWalkinModal(true)}
-            className="btn-primary py-2 px-3.5 text-xs font-bold flex items-center gap-1.5"
+            className="btn-primary py-1.5 px-3.5 text-xs font-bold hidden lg:flex items-center gap-1.5"
           >
             <Plus size={15} />
             <span>+ Walk-In</span>
@@ -177,9 +201,9 @@ export default function AdminDashboard() {
           <Link
             to="/display"
             target="_blank"
-            className="text-xs px-3.5 py-2 rounded-xl font-bold transition-all bg-blue-600 text-white hover:bg-blue-500 shadow-sm"
+            className="text-xs px-3 py-1.5 rounded-xl font-bold transition-all bg-blue-600 text-white hover:bg-blue-500 shadow-sm flex items-center gap-1"
           >
-            📺 Floor TV
+            <span>📺 TV</span>
           </Link>
 
           <button
@@ -188,35 +212,35 @@ export default function AdminDashboard() {
               navigate('/login')
             }}
             title="Sign out of concierge command"
-            className="text-xs px-3 py-2 rounded-xl font-bold transition-all flex items-center gap-1.5 bg-rose-50 text-rose-700 border border-rose-200 hover:bg-rose-100 shadow-sm"
+            className="text-xs px-2.5 sm:px-3 py-1.5 rounded-xl font-bold transition-all hidden lg:flex items-center gap-1.5 bg-rose-50 text-rose-700 border border-rose-200 hover:bg-rose-100 shadow-sm"
           >
             <LogOut size={14} />
-            <span className="hidden sm:inline">Sign Out</span>
+            <span>Sign Out</span>
           </button>
         </div>
       </header>
 
       {/* Main Content Area */}
-      <main className="max-w-7xl mx-auto p-8 space-y-8">
+      <main className="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8 space-y-6 sm:space-y-8">
         
         {/* KPI Cards in Blue and White with dynamic elevation */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <div className="dynamic-card p-5 border-l-4 border-l-blue-600">
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-xs uppercase font-bold text-slate-500">Currently in Line</span>
-              <Users size={18} className="text-blue-600" />
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+          <div className="dynamic-card p-3.5 sm:p-5 border-l-4 border-l-blue-600">
+            <div className="flex items-center justify-between mb-1.5">
+              <span className="text-[10px] sm:text-xs uppercase font-bold text-slate-500">In Line</span>
+              <Users size={16} className="text-blue-600" />
             </div>
-            <div className="font-display text-4xl font-black text-slate-950">{totalWaiting}</div>
-            <span className="text-xs text-blue-700 font-semibold mt-1 block">Across 3 Stylist Stations</span>
+            <div className="font-display text-2xl sm:text-4xl font-black text-slate-950">{totalWaiting}</div>
+            <span className="text-[10px] sm:text-xs text-blue-700 font-semibold mt-1 block truncate">3 Stylist Stations</span>
           </div>
 
-          <div className="dynamic-card p-5 border-l-4 border-l-emerald-500">
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-xs uppercase font-bold text-slate-500">Active in Chair</span>
-              <Scissors size={18} className="text-emerald-600" />
+          <div className="dynamic-card p-3.5 sm:p-5 border-l-4 border-l-emerald-500">
+            <div className="flex items-center justify-between mb-1.5">
+              <span className="text-[10px] sm:text-xs uppercase font-bold text-slate-500">In Chair</span>
+              <Scissors size={16} className="text-emerald-600" />
             </div>
-            <div className="font-display text-4xl font-black text-emerald-800">{totalServing}</div>
-            <span className="text-xs text-emerald-600 font-semibold mt-1 block">Services in progress</span>
+            <div className="font-display text-2xl sm:text-4xl font-black text-emerald-800">{totalServing}</div>
+            <span className="text-[10px] sm:text-xs text-emerald-600 font-semibold mt-1 block truncate">In progress</span>
           </div>
 
           <div className="dynamic-card p-5 border-l-4 border-l-sky-500">
@@ -306,11 +330,11 @@ export default function AdminDashboard() {
         </section>
 
         {/* Global Live Queue Ledger with Dynamic Search and Filter */}
-        <section className="dynamic-card p-6">
+        <section className="dynamic-card p-4 sm:p-6">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
-            <div className="flex items-center gap-3">
-              <h2 className="font-display text-xl font-bold text-slate-900">Master Queue Ledger</h2>
-              <div className="flex rounded-xl p-1 bg-slate-100 border border-slate-200">
+            <div className="flex flex-col sm:flex-row sm:items-center gap-3">
+              <h2 className="font-display text-lg sm:text-xl font-bold text-slate-900">Master Queue Ledger</h2>
+              <div className="flex rounded-xl p-1 bg-slate-100 border border-slate-200 self-start sm:self-auto">
                 <button
                   onClick={() => setActiveTab('queue')}
                   className={`text-xs px-3 py-1.5 rounded-lg font-bold transition-all ${
@@ -331,22 +355,22 @@ export default function AdminDashboard() {
             </div>
 
             {/* Dynamic Search & Stylist Filters */}
-            <div className="flex items-center gap-3">
-              <div className="relative">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 w-full md:w-auto">
+              <div className="relative flex-1 sm:w-56">
                 <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
                 <input
                   type="text"
                   placeholder="Search token or name…"
                   value={searchQuery}
                   onChange={e => setSearchQuery(e.target.value)}
-                  className="pl-8 pr-3 py-1.5 rounded-xl border border-blue-200 text-xs font-semibold outline-none focus:border-blue-500 bg-white"
+                  className="w-full pl-8 pr-3 py-2 sm:py-1.5 rounded-xl border border-blue-200 text-xs font-semibold outline-none focus:border-blue-500 bg-white"
                 />
               </div>
 
               <select
                 value={barberFilter}
                 onChange={e => setBarberFilter(e.target.value)}
-                className="py-1.5 px-3 rounded-xl border border-blue-200 text-xs font-semibold outline-none bg-white text-slate-700"
+                className="py-2 sm:py-1.5 px-3 rounded-xl border border-blue-200 text-xs font-semibold outline-none bg-white text-slate-700"
               >
                 <option value="all">All Stylists</option>
                 {barbers.map(b => (
@@ -356,8 +380,8 @@ export default function AdminDashboard() {
             </div>
           </div>
 
-          <div className="overflow-x-auto">
-            <table className="w-full text-left text-sm">
+          <div className="overflow-x-auto -mx-4 sm:mx-0 px-4 sm:px-0">
+            <table className="w-full text-left text-sm min-w-[550px]">
               <thead>
                 <tr className="border-b border-slate-100 text-xs uppercase text-slate-500 font-bold">
                   <th className="pb-3">Token</th>
@@ -430,9 +454,9 @@ export default function AdminDashboard() {
 
       {/* Walk-in Form Modal */}
       {showWalkinModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm">
-          <div className="w-full max-w-md rounded-3xl p-6 bg-white shadow-2xl border border-blue-100 animate-slide-up">
-            <h3 className="font-display text-2xl font-bold text-slate-950 mb-1">Add Floor Walk-In</h3>
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm overflow-y-auto">
+          <div className="w-full max-w-md rounded-3xl p-5 sm:p-6 bg-white shadow-2xl border border-blue-100 animate-slide-up my-auto">
+            <h3 className="font-display text-xl sm:text-2xl font-bold text-slate-950 mb-1">Add Floor Walk-In</h3>
             <p className="text-xs text-slate-500 mb-5">Manually register patron directly into station queue</p>
 
             <form onSubmit={handleCreateWalkin} className="space-y-4">
@@ -500,9 +524,9 @@ export default function AdminDashboard() {
 
       {/* QR Code Modal for Front Desk / Lounge Display */}
       {showQRModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm">
-          <div className="w-full max-w-sm rounded-3xl p-6 text-center bg-white shadow-2xl border border-blue-100 animate-slide-up">
-            <h3 className="font-display text-2xl font-bold text-slate-950 mb-1">Scan for Mobile Queue</h3>
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm overflow-y-auto">
+          <div className="w-full max-w-sm rounded-3xl p-5 sm:p-6 text-center bg-white shadow-2xl border border-blue-100 animate-slide-up my-auto">
+            <h3 className="font-display text-xl sm:text-2xl font-bold text-slate-950 mb-1">Scan for Mobile Queue</h3>
             <p className="text-xs text-slate-500 mb-5">
               Patrons can aim their camera to join the queue on their phone
             </p>

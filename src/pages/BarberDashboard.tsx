@@ -49,33 +49,33 @@ export default function BarberDashboard() {
     <div className="min-h-screen text-slate-800">
       
       {/* Top Stylist Nav */}
-      <header className="flex items-center justify-between px-6 py-4 border-b border-blue-100 bg-white/80 backdrop-blur-md sticky top-0 z-30">
-        <div className="flex items-center gap-4">
+      <header className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 px-4 sm:px-6 py-3 sm:py-4 border-b border-blue-100 bg-white/90 backdrop-blur-md sticky top-0 z-30">
+        <div className="flex items-center gap-3">
           <Link
             to="/join"
-            className="p-2 rounded-xl text-xs font-semibold flex items-center gap-1.5 text-blue-700 bg-blue-50 hover:bg-blue-100 transition-all border border-blue-100"
+            className="p-2 rounded-xl text-xs font-semibold flex items-center gap-1.5 text-blue-700 bg-blue-50 hover:bg-blue-100 transition-all border border-blue-100 flex-shrink-0"
           >
             <ArrowLeft size={15} />
             <span className="hidden sm:inline">Guest Portal</span>
           </Link>
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl flex items-center justify-center font-display font-black text-lg text-white bg-gradient-to-tr from-blue-700 via-blue-600 to-sky-400 shadow-sm">
+          <div className="flex items-center gap-2.5">
+            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center font-display font-black text-base sm:text-lg text-white bg-gradient-to-tr from-blue-700 via-blue-600 to-sky-400 shadow-sm flex-shrink-0">
               {barber.avatar}
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <h1 className="font-display text-xl font-bold text-slate-900">{barber.name}'s Station</h1>
-                <span className="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-blue-100 text-blue-700">
-                  Stylist Cockpit
+                <h1 className="font-display text-lg sm:text-xl font-bold text-slate-900">{barber.name}'s Station</h1>
+                <span className="text-[10px] sm:text-[11px] font-bold px-2 py-0.5 rounded-full bg-blue-100 text-blue-700">
+                  Cockpit
                 </span>
               </div>
-              <p className="text-xs text-slate-500">Specialty: {barber.specialty}</p>
+              <p className="text-[11px] sm:text-xs text-slate-500">Specialty: {barber.specialty}</p>
             </div>
           </div>
         </div>
 
         {/* Status Toggle & TV Display Link */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 w-full sm:w-auto justify-between sm:justify-end">
           <div className="flex items-center p-1 rounded-2xl bg-slate-100 border border-slate-200">
             <button
               onClick={() => updateBarberStatus(barber.id, 'available')}
@@ -102,7 +102,7 @@ export default function BarberDashboard() {
           <Link
             to="/display"
             target="_blank"
-            className="text-xs px-3.5 py-2 rounded-xl font-bold transition-all hidden md:inline-flex items-center gap-1.5 bg-blue-50 border border-blue-200 text-blue-700 hover:bg-blue-100 shadow-sm"
+            className="text-xs px-3.5 py-2 rounded-xl font-bold transition-all inline-flex items-center gap-1.5 bg-blue-50 border border-blue-200 text-blue-700 hover:bg-blue-100 shadow-sm"
           >
             <span>Floor TV ↗</span>
           </Link>
@@ -110,12 +110,12 @@ export default function BarberDashboard() {
       </header>
 
       {/* Main Stylist Area */}
-      <main className="max-w-6xl mx-auto p-6 grid grid-cols-1 lg:grid-cols-12 gap-6">
+      <main className="max-w-6xl mx-auto p-4 sm:p-6 grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6">
         
         {/* Left Column: Active Chair Station (7 cols) */}
-        <section className="lg:col-span-7 space-y-6">
+        <section className="lg:col-span-7 space-y-4 sm:space-y-6">
           
-          <div className={`rounded-3xl p-6 transition-all border ${
+          <div className={`rounded-3xl p-5 sm:p-6 transition-all border ${
             currentlyServing
               ? 'bg-gradient-to-br from-blue-700 via-blue-800 to-indigo-950 text-white border-blue-400/40 shadow-xl shadow-blue-500/20'
               : 'bg-white/90 backdrop-blur-md border-blue-100 shadow-sm text-slate-900'
@@ -139,24 +139,24 @@ export default function BarberDashboard() {
             {currentlyServing ? (
               <div>
                 <div className="flex items-baseline justify-between mb-2">
-                  <div className="token-number-light text-7xl font-black tracking-tight">
+                  <div className="token-number-light text-5xl sm:text-7xl font-black tracking-tight">
                     {currentlyServing.token}
                   </div>
                   <div className="text-right">
                     <span className="text-xs text-blue-200 block">Scheduled Time</span>
-                    <span className="font-bold text-white text-base">~{currentlyServing.service_duration} mins</span>
+                    <span className="font-bold text-white text-sm sm:text-base">~{currentlyServing.service_duration} mins</span>
                   </div>
                 </div>
 
-                <h2 className="font-display text-3xl font-bold text-white mb-1">
+                <h2 className="font-display text-2xl sm:text-3xl font-bold text-white mb-1">
                   {currentlyServing.customer_name}
                 </h2>
-                <p className="text-sm font-semibold text-sky-300 mb-4">
+                <p className="text-xs sm:text-sm font-semibold text-sky-300 mb-4">
                   {currentlyServing.service}
                 </p>
 
                 {/* Dynamic Live Progress Bar for Chair Time */}
-                <div className="mb-6 p-3.5 rounded-2xl bg-white/10 border border-white/10">
+                <div className="mb-6 p-3 sm:p-3.5 rounded-2xl bg-white/10 border border-white/10">
                   <div className="flex justify-between text-xs mb-1.5 font-semibold text-blue-100">
                     <span>Service Pace</span>
                     <span>{progressPercent}% completed</span>
@@ -178,7 +178,7 @@ export default function BarberDashboard() {
                 </div>
 
                 {/* Stylist Action Buttons */}
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                   <button
                     onClick={() => markDone(currentlyServing.id)}
                     className="py-3.5 px-4 rounded-xl font-bold flex items-center justify-center gap-2 text-sm bg-emerald-500 hover:bg-emerald-600 text-white shadow-md transition-all"

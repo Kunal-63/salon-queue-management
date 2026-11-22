@@ -50,10 +50,10 @@ export default function AdminLogin() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col justify-between p-6 select-none text-slate-800">
+    <div className="min-h-screen flex flex-col justify-between p-4 sm:p-6 select-none text-slate-800">
       
       {/* Top Header */}
-      <nav className="flex items-center justify-between max-w-md mx-auto w-full pt-4">
+      <nav className="flex items-center justify-between max-w-md mx-auto w-full pt-2 sm:pt-4">
         <Link
           to="/join"
           className="flex items-center gap-1.5 text-xs font-bold text-blue-700 bg-blue-50 hover:bg-blue-100 transition-all px-3 py-1.5 rounded-full border border-blue-100 shadow-sm"
@@ -73,8 +73,8 @@ export default function AdminLogin() {
       </nav>
 
       {/* Main Login Card */}
-      <main className="max-w-md mx-auto w-full py-8">
-        <div className="dynamic-card p-8 bg-white/95 backdrop-blur-xl border border-blue-100 shadow-2xl shadow-blue-500/10">
+      <main className="max-w-md mx-auto w-full py-4 sm:py-8">
+        <div className="dynamic-card p-5 sm:p-8 bg-white/95 backdrop-blur-xl border border-blue-100 shadow-2xl shadow-blue-500/10">
           
           <div className="text-center mb-6">
             <div className="w-14 h-14 rounded-2xl mx-auto mb-3 flex items-center justify-center bg-gradient-to-tr from-blue-700 via-blue-600 to-sky-400 text-white shadow-lg shadow-blue-500/25">

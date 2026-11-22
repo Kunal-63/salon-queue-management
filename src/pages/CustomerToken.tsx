@@ -83,11 +83,11 @@ export default function CustomerToken() {
       </nav>
 
       {/* Main Dynamic Pass */}
-      <main className="flex-1 flex flex-col items-center justify-center px-6 py-4">
-        <div className="w-full max-w-sm animate-slide-up">
+      <main className="flex-1 flex flex-col items-center justify-center px-3 sm:px-6 py-4">
+        <div className="w-full max-w-sm sm:max-w-md animate-slide-up">
           
           {/* Main Card with Dynamic Progress Arc */}
-          <div className={`rounded-3xl p-8 text-center relative overflow-hidden transition-all duration-500 border ${
+          <div className={`rounded-3xl p-5 sm:p-8 text-center relative overflow-hidden transition-all duration-500 border ${
             isYourTurn
               ? 'bg-gradient-to-b from-[#0F2952]/95 to-[#0A192F]/95 border-sky-400/60 shadow-2xl shadow-blue-500/40 text-white animate-pulse-blue'
               : 'bg-white/95 backdrop-blur-xl border-blue-200/80 shadow-2xl shadow-blue-500/10 text-slate-900'
