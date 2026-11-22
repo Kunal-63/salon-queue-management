@@ -3,10 +3,28 @@
 **Live demo:** https://salon-queue-management-six.vercel.app/  
 **Hosted on:** Vercel (frontend) + Render / Node.js (backend) + Supabase (database)
 
-### Staff / Concierge Test Credentials
+### 🔑 Staff / Concierge Test Credentials
 - **Admin PIN:** `7788` *(instant one-click passkey)*
 - **Concierge Email:** `admin@luxecuts.com`
 - **Concierge Password:** `luxe2026` *(or `admin` / `luxe`)*
+
+---
+
+## 🔗 Direct Live Links (Click to Open Any Screen)
+
+| Role / Experience | Direct Clickable URL | Key Features |
+| :--- | :--- | :--- |
+| 📱 **Guest Check-In** | [https://salon-queue-management-six.vercel.app/join](https://salon-queue-management-six.vercel.app/join) | Multi-service selector, live price & wait ticker, stylist matcher, English / Hindi toggle |
+| 🎫 **Live Digital Token** | [https://salon-queue-management-six.vercel.app/token/1](https://salon-queue-management-six.vercel.app/token/1) | Animated circular wait ring, elapsed minutes counter, dynamic status stepper, cancel modal |
+| 📺 **Lounge TV Calling Board** | [https://salon-queue-management-six.vercel.app/display](https://salon-queue-management-six.vercel.app/display) | Marine Navy 3-column wall display, animated audio visualizer, live clock, sound test switch |
+| ✂️ **Stylist Cockpit — Zara** | [https://salon-queue-management-six.vercel.app/barber/zara](https://salon-queue-management-six.vercel.app/barber/zara) | Zara's station (Bridal & Head Spa), active chair pace bar, overtime alerts, break toggle |
+| ✂️ **Stylist Cockpit — Marcus** | [https://salon-queue-management-six.vercel.app/barber/marcus](https://salon-queue-management-six.vercel.app/barber/marcus) | Marcus's station (Royal Fade & Classic), live chair timer, call next, no-show marker |
+| ✂️ **Stylist Cockpit — Dev** | [https://salon-queue-management-six.vercel.app/barber/dev](https://salon-queue-management-six.vercel.app/barber/dev) | Dev's station (Beard & Kids), queue switcher, one-click service completion |
+| 🔐 **Admin Concierge Login** | [https://salon-queue-management-six.vercel.app/login](https://salon-queue-management-six.vercel.app/login) | PIN `7788` or Email entry with quick-fill demo buttons |
+| 👑 **Concierge Command Center** | [https://salon-queue-management-six.vercel.app/admin](https://salon-queue-management-six.vercel.app/admin) | Real-time queue ledger, walk-in injector, live search, QR popover, auto-simulator engine |
+| 📊 **Floor Analytics & Reports** | [https://salon-queue-management-six.vercel.app/analytics](https://salon-queue-management-six.vercel.app/analytics) | Hourly traffic histogram, service distribution bar chart, one-click CSV export |
+| ⭐ **Customer Feedback & Review** | [https://salon-queue-management-six.vercel.app/feedback/1](https://salon-queue-management-six.vercel.app/feedback/1) | 5-star interactive rating with physics-based canvas confetti explosion |
+| 🌙 **Lounge Closure Screen** | [https://salon-queue-management-six.vercel.app/closed](https://salon-queue-management-six.vercel.app/closed) | Evening closing view with operating schedule & morning countdown |
 
 ---
 
@@ -54,19 +72,21 @@ Built with a bespoke **Dynamic Blue & White Design System**, zero-dependency Web
 
 ---
 
-## 🧭 Complete Route Map
+## 🧭 Complete Screen Directory
 
-| URL Path | Screen Name | Description |
-| :--- | :--- | :--- |
-| `/join` | **Guest Check-In** | Dynamic multi-service picker, price & duration ticker, stylist recommendation, English / Hindi toggle |
-| `/token/:id` | **Live Patron Token** | SVG circular progress ring, dynamic elapsed minute counter, status stepper, cancel modal |
-| `/display` | **TV Calling Board** | High-contrast Marine Navy display for lounge TV screens, animated audio visualizer, sound switch |
-| `/barber/:id` | **Stylist Cockpit** | Dedicated console for Zara, Marcus, or Dev; service pace bar, overtime warning, break toggle |
-| `/login` | **Concierge Login** | PIN / Email toggle with demo quick-fill buttons and error states |
-| `/admin` | **Concierge Command** | Live queue ledger, real-time search & filters, walk-in modal, QR code popover, automated patron simulator |
-| `/analytics` | **Stylist Analytics** | Hourly footfall histogram, service distribution bar chart, CSV export |
-| `/feedback/:token` | **Patron Review** | 5-star interactive rating with canvas physics confetti celebration |
-| `/closed` | **Lounge Closure** | Evening closing screen showing operating hours and morning return countdown |
+| URL Path | Live Direct Link | Target User | Description |
+| :--- | :--- | :--- | :--- |
+| `/join` | [Open `/join`](https://salon-queue-management-six.vercel.app/join) | Patron | Mobile self check-in, multi-service pricing, stylist matcher |
+| `/token/:id` | [Open `/token/1`](https://salon-queue-management-six.vercel.app/token/1) | Patron | Live digital token, circular progress ring, audio chime alert |
+| `/display` | [Open `/display`](https://salon-queue-management-six.vercel.app/display) | Lounge TV | High-contrast TV board, animated audio visualizer, live clock |
+| `/barber/zara` | [Open `/barber/zara`](https://salon-queue-management-six.vercel.app/barber/zara) | Stylist | Zara's cockpit (Bridal & Head Spa), pace timer, call next |
+| `/barber/marcus` | [Open `/barber/marcus`](https://salon-queue-management-six.vercel.app/barber/marcus) | Stylist | Marcus's cockpit (Royal Fade & Classic), active chair bar |
+| `/barber/dev` | [Open `/barber/dev`](https://salon-queue-management-six.vercel.app/barber/dev) | Stylist | Dev's cockpit (Beard & Kids), station break toggle |
+| `/login` | [Open `/login`](https://salon-queue-management-six.vercel.app/login) | Concierge | Admin login with PIN `7788` or Email `admin@luxecuts.com` |
+| `/admin` | [Open `/admin`](https://salon-queue-management-six.vercel.app/admin) | Manager | Concierge command, walk-in modal, auto-patron simulator |
+| `/analytics` | [Open `/analytics`](https://salon-queue-management-six.vercel.app/analytics) | Manager | Hourly traffic histogram, service share, CSV export |
+| `/feedback/:token` | [Open `/feedback/1`](https://salon-queue-management-six.vercel.app/feedback/1) | Patron | 5-star review with physics canvas confetti celebration |
+| `/closed` | [Open `/closed`](https://salon-queue-management-six.vercel.app/closed) | Public | Evening salon closure schedule & morning return timer |
 
 ---
 
