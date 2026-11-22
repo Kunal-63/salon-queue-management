@@ -360,9 +360,33 @@ export const useQueueStore = create<QueueStore>((set, get) => ({
       }
     }
 
-    // 4. If Supabase configured, subscribe to database changes
+    // 4. If Supabase configured, hydrate and subscribe to PostgreSQL database changes
     let supabaseChannel: any = null
     if (supabase) {
+      set({ isLiveDbConnected: true })
+
+      // Fetch initial data from Supabase
+      supabase.from('barbers').select('*').then(
+        ({ data }: any) => {
+          if (data && data.length > 0) {
+            set({ barbers: data })
+            localStorage.setItem(STORAGE_KEY_BARBERS, JSON.stringify(data))
+          }
+        },
+        () => { /* ignore offline */ }
+      )
+
+      supabase.from('queue_entries').select('*').then(
+        ({ data }: any) => {
+          if (data && data.length > 0) {
+            const parsed = data.map(parseQueueItem)
+            set({ queue: parsed })
+            localStorage.setItem(STORAGE_KEY_QUEUE, JSON.stringify(parsed))
+          }
+        },
+        () => { /* ignore offline */ }
+      )
+
       supabaseChannel = supabase
         .channel('db-realtime-luxe')
         .on(
@@ -378,7 +402,19 @@ export const useQueueStore = create<QueueStore>((set, get) => ({
             } else if (payload.eventType === 'UPDATE') {
               const row = payload.new as any
               set(s => ({
-                queue: s.queue.map(e => e.id === row.id ? { ...e, ...row } : e)
+                queue: s.queue.map(e => e.id === row.id ? { ...e, ...parseQueueItem(row) } : e)
+              }))
+            }
+          }
+        )
+        .on(
+          'postgres_changes',
+          { event: '*', schema: 'public', table: 'barbers' },
+          (payload) => {
+            if (payload.eventType === 'UPDATE') {
+              const row = payload.new as any
+              set(s => ({
+                barbers: s.barbers.map(b => b.id === row.id ? { ...b, ...row } : b)
               }))
             }
           }
