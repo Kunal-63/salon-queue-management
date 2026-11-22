@@ -6,7 +6,8 @@
 **Student:** Kunal Adwani | **Roll Number:** 202612050 | **Program:** MSc IT (Sem 1)
 
 ### 📹 3-Minute Demo Video Walkthrough
-- **Demo Video:** [Click here to view the 3-minute flow demo walkthrough](https://salon-queue-management-six.vercel.app/) *(or paste your recorded Loom / Drive video link here)*
+- **Demo Video:** [https://drive.google.com/file/d/12_blR_VXWxb44KNQu8D1C7SQpdv-L701/view?usp=sharing](https://drive.google.com/file/d/12_blR_VXWxb44KNQu8D1C7SQpdv-L701/view?usp=sharing)  
+  *(3-minute flow demo walkthrough showing mobile view, guest check-in, token status, lounge display board, and stylist cockpit)*
 
 ---
 

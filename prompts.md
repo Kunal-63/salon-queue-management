@@ -129,3 +129,12 @@
 - Added live seconds counter to `CustomerToken.tsx` (`Wait: Xm Ys so far`) with animated pulsing status.
 - Added dynamic live ticking countdown (`HH:MM:SS`) to next morning's 9:00 AM reopening in `QueueClosed.tsx` with live time and date.
 - Added mobile quick-navigation to analytics in `AdminDashboard.tsx`.
+
+---
+
+### Step 11 — 3-Minute Demo Video Integration
+**Prompt:**
+> *"add this link https://drive.google.com/file/d/12_blR_VXWxb44KNQu8D1C7SQpdv-L701/view?usp=sharing"*
+
+**Outcome:**
+- Added the Google Drive 3-minute demo video walkthrough link directly to `README.md` and `reflection.md` under the required video demo submission section.
