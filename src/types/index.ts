@@ -36,3 +36,17 @@ export interface Service {
 }
 
 export type Lang = 'en' | 'hi'
+
+export interface ReviewEntry {
+  id: string
+  token: string
+  customer_name: string
+  barber_id: string
+  barber_name: string
+  service: string
+  rating: number
+  comment?: string
+  aspects?: { waitTime: boolean | null; styling: boolean | null; ambiance: boolean | null }
+  created_at: string
+}
+

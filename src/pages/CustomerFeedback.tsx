@@ -6,7 +6,7 @@ import { Scissors, Star, ThumbsUp, ThumbsDown, CheckCircle, ArrowRight, Heart } 
 
 export default function CustomerFeedback() {
   const { token } = useParams<{ token: string }>()
-  const { queue } = useQueueStore()
+  const { queue, addFeedback } = useQueueStore()
 
   const entry = queue.find(e => e.token.toLowerCase() === (token || '').toLowerCase()) ||
                 queue.find(e => e.status === 'completed') ||
@@ -34,6 +34,16 @@ export default function CustomerFeedback() {
     e.preventDefault()
     setSubmitted(true)
     triggerConfetti()
+    addFeedback({
+      token: entry?.token || 'LX-07',
+      customer_name: entry?.customer_name || 'Guest Patron',
+      barber_id: entry?.barber_id || 'marcus',
+      barber_name: entry?.barber_name || 'Marcus',
+      service: entry?.service || 'Royal Fade',
+      rating,
+      comment: comment.trim() || undefined,
+      aspects,
+    })
   }
 
   return (

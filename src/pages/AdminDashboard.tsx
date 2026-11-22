@@ -89,7 +89,7 @@ export default function AdminDashboard() {
 
   return (
     <div className="min-h-screen text-slate-800">
-      
+
       {/* Admin Nav */}
       <header className="flex flex-col lg:flex-row lg:items-center justify-between gap-3 px-4 sm:px-8 py-3 sm:py-4 border-b border-blue-100 bg-white/90 backdrop-blur-md sticky top-0 z-30">
         <div className="flex items-center justify-between w-full lg:w-auto gap-3">
@@ -118,13 +118,20 @@ export default function AdminDashboard() {
             </div>
           </div>
 
-          {/* Mobile Right Quick Action: Walk-in + TV */}
-          <div className="flex items-center gap-2 lg:hidden">
+          {/* Mobile Right Quick Action: Walk-in + Analytics + SignOut */}
+          <div className="flex items-center gap-1.5 lg:hidden">
+            <Link
+              to="/analytics"
+              className="p-1.5 rounded-xl text-xs font-bold bg-blue-50 text-blue-700 border border-blue-200"
+              title="View Analytics"
+            >
+              <BarChart3 size={15} />
+            </Link>
             <button
               onClick={() => setShowWalkinModal(true)}
-              className="btn-primary py-1.5 px-3 text-xs font-bold flex items-center gap-1"
+              className="btn-primary py-1.5 px-2.5 text-xs font-bold flex items-center gap-1"
             >
-              <Plus size={14} />
+              <Plus size={13} />
               <span>Walk-In</span>
             </button>
             <button
@@ -133,7 +140,7 @@ export default function AdminDashboard() {
                 navigate('/login')
               }}
               title="Sign Out"
-              className="p-2 rounded-xl text-xs font-bold bg-rose-50 text-rose-700 border border-rose-200"
+              className="p-1.5 rounded-xl text-xs font-bold bg-rose-50 text-rose-700 border border-rose-200"
             >
               <LogOut size={14} />
             </button>
@@ -145,11 +152,10 @@ export default function AdminDashboard() {
           {/* Dynamic Auto-Simulation Toggle */}
           <button
             onClick={() => setAutoSimulate(!autoSimulate)}
-            className={`text-xs px-2.5 sm:px-3 py-1.5 rounded-xl font-bold transition-all flex items-center gap-1.5 border ${
-              autoSimulate
+            className={`text-xs px-2.5 sm:px-3 py-1.5 rounded-xl font-bold transition-all flex items-center gap-1.5 border ${autoSimulate
                 ? 'bg-emerald-600 text-white border-emerald-600 shadow-md animate-pulse'
                 : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-50'
-            }`}
+              }`}
             title="Automatically inject simulated guests every 20s"
           >
             {autoSimulate ? <Pause size={13} /> : <Play size={13} />}
@@ -222,7 +228,7 @@ export default function AdminDashboard() {
 
       {/* Main Content Area */}
       <main className="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8 space-y-6 sm:space-y-8">
-        
+
         {/* KPI Cards in Blue and White with dynamic elevation */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
           <div className="dynamic-card p-3.5 sm:p-5 border-l-4 border-l-blue-600">
@@ -337,17 +343,15 @@ export default function AdminDashboard() {
               <div className="flex rounded-xl p-1 bg-slate-100 border border-slate-200 self-start sm:self-auto">
                 <button
                   onClick={() => setActiveTab('queue')}
-                  className={`text-xs px-3 py-1.5 rounded-lg font-bold transition-all ${
-                    activeTab === 'queue' ? 'bg-blue-600 text-white shadow-sm' : 'text-slate-600'
-                  }`}
+                  className={`text-xs px-3 py-1.5 rounded-lg font-bold transition-all ${activeTab === 'queue' ? 'bg-blue-600 text-white shadow-sm' : 'text-slate-600'
+                    }`}
                 >
                   Live Queue ({queue.filter(q => q.status === 'waiting' || q.status === 'serving').length})
                 </button>
                 <button
                   onClick={() => setActiveTab('history')}
-                  className={`text-xs px-3 py-1.5 rounded-lg font-bold transition-all ${
-                    activeTab === 'history' ? 'bg-blue-600 text-white shadow-sm' : 'text-slate-600'
-                  }`}
+                  className={`text-xs px-3 py-1.5 rounded-lg font-bold transition-all ${activeTab === 'history' ? 'bg-blue-600 text-white shadow-sm' : 'text-slate-600'
+                    }`}
                 >
                   Completed ({totalCompleted})
                 </button>
@@ -409,12 +413,11 @@ export default function AdminDashboard() {
                         {entry.barber_name}
                       </td>
                       <td className="py-3">
-                        <span className={`text-xs px-2.5 py-1 rounded-full font-bold ${
-                          entry.status === 'serving' ? 'bg-emerald-100 text-emerald-800' :
-                          entry.status === 'waiting' ? 'bg-blue-100 text-blue-800' :
-                          entry.status === 'completed' ? 'bg-slate-100 text-slate-600' :
-                          'bg-rose-100 text-rose-700'
-                        }`}>
+                        <span className={`text-xs px-2.5 py-1 rounded-full font-bold ${entry.status === 'serving' ? 'bg-emerald-100 text-emerald-800' :
+                            entry.status === 'waiting' ? 'bg-blue-100 text-blue-800' :
+                              entry.status === 'completed' ? 'bg-slate-100 text-slate-600' :
+                                'bg-rose-100 text-rose-700'
+                          }`}>
                           {entry.status}
                         </span>
                       </td>

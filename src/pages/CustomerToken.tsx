@@ -11,21 +11,29 @@ export default function CustomerToken() {
   const [entry, setEntry] = useState<QueueEntry | null>(null)
   const [position, setPosition] = useState(0)
   const [showCancel, setShowCancel] = useState(false)
-  const [elapsedMinutes, setElapsedMinutes] = useState(0)
+  const [elapsedSeconds, setElapsedSeconds] = useState(0)
 
   useEffect(() => {
-    const found = queue.find(e => e.id === id) || queue[queue.length - 1]
+    const found = queue.find(e => e.id === id || e.token.toLowerCase() === (id || '').toLowerCase()) ||
+                  queue[queue.length - 1]
     if (found) {
       setEntry(found)
       const barberQueue = queue.filter(e => e.barber_id === found.barber_id && e.status === 'waiting')
       const pos = barberQueue.findIndex(e => e.id === found.id) + 1
       setPosition(found.status === 'serving' ? 0 : pos)
-
-      // Calculate elapsed minutes since joining
-      const joinedTime = new Date(found.timestamp_joined).getTime()
-      setElapsedMinutes(Math.max(0, Math.floor((Date.now() - joinedTime) / 60000)))
     }
   }, [queue, id])
+
+  useEffect(() => {
+    if (!entry) return
+    const updateElapsed = () => {
+      const joinedTime = new Date(entry.timestamp_joined).getTime()
+      setElapsedSeconds(Math.max(0, Math.floor((Date.now() - joinedTime) / 1000)))
+    }
+    updateElapsed()
+    const timer = setInterval(updateElapsed, 1000)
+    return () => clearInterval(timer)
+  }, [entry])
 
   if (!entry) {
     return (
@@ -164,7 +172,10 @@ export default function CustomerToken() {
                   <div className="font-display font-black text-2xl text-blue-700">
                     {formatWait(entry.estimated_wait)}
                   </div>
-                  <span className="text-[10px] text-slate-500">Wait: {elapsedMinutes}m so far</span>
+                  <span className="text-[10px] text-slate-500 flex items-center gap-1">
+                    <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-ping" />
+                    <span>Wait: {Math.floor(elapsedSeconds / 60)}m {elapsedSeconds % 60}s</span>
+                  </span>
                 </div>
               </div>
             )}

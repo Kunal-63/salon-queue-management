@@ -1,11 +1,12 @@
 import { create } from 'zustand'
-import type { Barber, QueueEntry } from '../types'
-import { INITIAL_BARBERS, SAMPLE_QUEUE, generateToken } from '../lib/utils'
+import type { Barber, QueueEntry, ReviewEntry } from '../types'
+import { INITIAL_BARBERS, SAMPLE_QUEUE, INITIAL_REVIEWS, generateToken } from '../lib/utils'
 import { supabase, isSupabaseConfigured, queueBroadcast, broadcastStateChange } from '../lib/supabase'
 
 const STORAGE_KEY_QUEUE = 'luxe_cuts_db_queue'
 const STORAGE_KEY_BARBERS = 'luxe_cuts_db_barbers'
 const STORAGE_KEY_TOKEN_COUNT = 'luxe_cuts_db_token_counter'
+const STORAGE_KEY_REVIEWS = 'luxe_cuts_db_reviews'
 
 function parseQueueItem(item: any): QueueEntry {
   return {
@@ -38,6 +39,16 @@ function loadSavedBarbers(): Barber[] {
   }
 }
 
+function loadSavedReviews(): ReviewEntry[] {
+  if (typeof window === 'undefined') return INITIAL_REVIEWS
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY_REVIEWS)
+    return raw ? JSON.parse(raw) : INITIAL_REVIEWS
+  } catch {
+    return INITIAL_REVIEWS
+  }
+}
+
 function loadSavedCounter(): number {
   if (typeof window === 'undefined') return 8
   try {
@@ -51,6 +62,7 @@ function loadSavedCounter(): number {
 interface QueueStore {
   queue: QueueEntry[]
   barbers: Barber[]
+  reviews: ReviewEntry[]
   nextTokenNum: number
   isLiveDbConnected: boolean
   syncError: string | null
@@ -61,6 +73,7 @@ interface QueueStore {
   markDone: (id: string) => Promise<void>
   markAbsent: (id: string) => Promise<void>
   updateBarberStatus: (barberId: string, status: Barber['status']) => Promise<void>
+  addFeedback: (review: Omit<ReviewEntry, 'id' | 'created_at'>) => Promise<void>
   initRealtimeSync: () => (() => void) | void
   resetToSampleData: () => Promise<void>
   getBarberQueue: (barberId: string) => QueueEntry[]
@@ -71,6 +84,7 @@ interface QueueStore {
 export const useQueueStore = create<QueueStore>((set, get) => ({
   queue: loadSavedQueue(),
   barbers: loadSavedBarbers(),
+  reviews: loadSavedReviews(),
   nextTokenNum: loadSavedCounter(),
   isLiveDbConnected: isSupabaseConfigured,
   syncError: null,
@@ -279,13 +293,28 @@ export const useQueueStore = create<QueueStore>((set, get) => ({
     }
   },
 
+  addFeedback: async (reviewData) => {
+    const { reviews } = get()
+    const newReview: ReviewEntry = {
+      ...reviewData,
+      id: `rev-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
+      created_at: new Date().toISOString(),
+    }
+    const updatedReviews = [newReview, ...reviews]
+    localStorage.setItem(STORAGE_KEY_REVIEWS, JSON.stringify(updatedReviews))
+    set({ reviews: updatedReviews })
+    broadcastStateChange('ADD_REVIEW', { reviews: updatedReviews })
+  },
+
   resetToSampleData: async () => {
     localStorage.removeItem(STORAGE_KEY_QUEUE)
     localStorage.removeItem(STORAGE_KEY_BARBERS)
     localStorage.removeItem(STORAGE_KEY_TOKEN_COUNT)
+    localStorage.removeItem(STORAGE_KEY_REVIEWS)
     set({
       queue: SAMPLE_QUEUE,
       barbers: INITIAL_BARBERS,
+      reviews: INITIAL_REVIEWS,
       nextTokenNum: 8,
     })
     broadcastStateChange('RESET_DATA', null)
@@ -356,7 +385,8 @@ export const useQueueStore = create<QueueStore>((set, get) => ({
         if (!event.data) return
         const freshQueue = loadSavedQueue()
         const freshBarbers = loadSavedBarbers()
-        set({ queue: freshQueue, barbers: freshBarbers })
+        const freshReviews = loadSavedReviews()
+        set({ queue: freshQueue, barbers: freshBarbers, reviews: freshReviews })
       }
     }
 
