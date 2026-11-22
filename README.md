@@ -1,12 +1,11 @@
-# Salon Queue Management System — LUXE CUTS
+# Salon Queue Management System
 
 **Live demo:** https://salon-queue-management-six.vercel.app/  
-**Hosted on:** Vercel (frontend) + Render / Node.js (backend) + Supabase (database)
+**Hosted on:** Vercel (frontend) + Render / Node.js (backend) + Supabase (database)  
+**Test PIN (Reception / Barber / Admin):** `7788` *(or Email: `admin@luxecuts.com` / Password: `luxe2026`)*
 
-### 🔑 Staff / Concierge Test Credentials
-- **Admin PIN:** `7788` *(instant one-click passkey)*
-- **Concierge Email:** `admin@luxecuts.com`
-- **Concierge Password:** `luxe2026` *(or `admin` / `luxe`)*
+### 📹 3-Minute Demo Video Walkthrough
+- **Demo Video:** [Click here to view the 3-minute flow demo walkthrough](https://salon-queue-management-six.vercel.app/) *(or paste your recorded Loom / Drive video link here)*
 
 ---
 
@@ -16,12 +15,14 @@
 | :--- | :--- | :--- |
 | 📱 **Guest Check-In** | [https://salon-queue-management-six.vercel.app/join](https://salon-queue-management-six.vercel.app/join) | Multi-service selector, live price & wait ticker, stylist matcher, English / Hindi toggle |
 | 🎫 **Live Digital Token** | [https://salon-queue-management-six.vercel.app/token/1](https://salon-queue-management-six.vercel.app/token/1) | Animated circular wait ring, elapsed minutes counter, dynamic status stepper, cancel modal |
+| 🎫 **My Status (`/status/:id`)** | [https://salon-queue-management-six.vercel.app/status/1](https://salon-queue-management-six.vercel.app/status/1) | Handout route alias for customer live status and turn alerts |
 | 📺 **Lounge TV Calling Board** | [https://salon-queue-management-six.vercel.app/display](https://salon-queue-management-six.vercel.app/display) | Marine Navy 3-column wall display, animated audio visualizer, live clock, sound test switch |
 | ✂️ **Stylist Cockpit — Zara** | [https://salon-queue-management-six.vercel.app/barber/zara](https://salon-queue-management-six.vercel.app/barber/zara) | Zara's station (Bridal & Head Spa), active chair pace bar, overtime alerts, break toggle |
 | ✂️ **Stylist Cockpit — Marcus** | [https://salon-queue-management-six.vercel.app/barber/marcus](https://salon-queue-management-six.vercel.app/barber/marcus) | Marcus's station (Royal Fade & Classic), live chair timer, call next, no-show marker |
 | ✂️ **Stylist Cockpit — Dev** | [https://salon-queue-management-six.vercel.app/barber/dev](https://salon-queue-management-six.vercel.app/barber/dev) | Dev's station (Beard & Kids), queue switcher, one-click service completion |
 | 🔐 **Admin Concierge Login** | [https://salon-queue-management-six.vercel.app/login](https://salon-queue-management-six.vercel.app/login) | PIN `7788` or Email entry with quick-fill demo buttons |
-| 👑 **Concierge Command Center** | [https://salon-queue-management-six.vercel.app/admin](https://salon-queue-management-six.vercel.app/admin) | Real-time queue ledger, walk-in injector, live search, QR popover, auto-simulator engine |
+| 📋 **Reception Dashboard (`/reception`)** | [https://salon-queue-management-six.vercel.app/reception](https://salon-queue-management-six.vercel.app/reception) | Receptionist floor dashboard, walk-in injector, call next, no-show handling |
+| 👑 **Concierge Command Center (`/admin`)** | [https://salon-queue-management-six.vercel.app/admin](https://salon-queue-management-six.vercel.app/admin) | Real-time queue ledger, walk-in injector, live search, QR popover, auto-simulator engine |
 | 📊 **Floor Analytics & Reports** | [https://salon-queue-management-six.vercel.app/analytics](https://salon-queue-management-six.vercel.app/analytics) | Hourly traffic histogram, service distribution bar chart, one-click CSV export |
 | ⭐ **Customer Feedback & Review** | [https://salon-queue-management-six.vercel.app/feedback/1](https://salon-queue-management-six.vercel.app/feedback/1) | 5-star interactive rating with physics-based canvas confetti explosion |
 | 🌙 **Lounge Closure Screen** | [https://salon-queue-management-six.vercel.app/closed](https://salon-queue-management-six.vercel.app/closed) | Evening closing view with operating schedule & morning countdown |

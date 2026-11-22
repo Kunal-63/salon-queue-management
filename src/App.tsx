@@ -45,9 +45,18 @@ export default function App() {
             <Route path="/" element={<Navigate to="/join" replace />} />
             <Route path="/join" element={<JoinQueue />} />
             <Route path="/token/:id" element={<CustomerToken />} />
+            <Route path="/status/:id" element={<CustomerToken />} />
             <Route path="/display" element={<LiveDisplay />} />
             <Route path="/barber/:id" element={<BarberDashboard />} />
             <Route path="/login" element={<AdminLogin />} />
+            <Route
+              path="/reception"
+              element={
+                <ProtectedRoute>
+                  <AdminDashboard />
+                </ProtectedRoute>
+              }
+            />
             <Route
               path="/admin"
               element={
